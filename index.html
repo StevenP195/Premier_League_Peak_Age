@@ -251,6 +251,70 @@
     </div>
   </section>
 
+  <section class="finding">
+    <p class="kicker">Finding 10 &middot; Where the league comes from</p>
+    <h2>Where do Premier League players come from, and does it show up in their value?</h2>
+    <p>
+      2,440 of this report's players carry citizenship from 115 different
+      countries. The United Kingdom supplies the single largest share by far
+      (824 players, 34% of the league), but that volume doesn't translate
+      into the highest value: the average non-UK player's career-peak market
+      value is &euro;18.4M, about 43% higher than the average UK player's
+      &euro;12.9M &mdash; clubs pay a premium for players developed outside
+      the English, Scottish, Welsh, and Northern Irish football pyramids,
+      even though those pyramids supply the most players. Brazil (99
+      players) carries the highest average value of any well-represented
+      nationality at &euro;30.9M, with Belgium, Portugal, France, and the
+      Netherlands close behind.
+    </p>
+    <p>
+      Rotate the globe or switch the measure to explore it yourself. Player
+      count answers "where do they come from"; total transfer spend
+      (&euro;25.4B across every nationality, paid by Premier League clubs
+      alone) answers "how much has been spent on them"; average market value
+      and average FIFA rating both get at "does nationality/development
+      correlate with quality" &mdash; and interestingly, they don't always
+      agree. Spain has this data set's highest average FIFA rating (87.0)
+      among nationalities with at least 15 players, but doesn't crack the
+      top five by market value &mdash; a reminder that a league's technical
+      reputation and what clubs actually pay for its players aren't the same
+      thing.
+    </p>
+    <div class="xi-controls">
+      <div class="control">
+        <label for="globe-measure">Color the globe by</label>
+        <select id="globe-measure">
+          <option value="player_count">Player count</option>
+          <option value="total_transfer_spend">Total transfer spend (into PL clubs)</option>
+          <option value="avg_peak_market_value">Average peak market value</option>
+          <option value="avg_fifa_overall">Average FIFA overall rating</option>
+        </select>
+      </div>
+    </div>
+    <div class="chart-card globe-card">
+      <div id="globe-viz"></div>
+      <div class="xi-tooltip" id="globe-tooltip" hidden></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-tile">
+        <div class="value" id="globe-stat-countries">&mdash;</div>
+        <div class="label">Countries represented</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="globe-stat-spend">&mdash;</div>
+        <div class="label">Total transfer spend, all nationalities</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="globe-stat-top-country">&mdash;</div>
+        <div class="label">Most-represented nationality</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="globe-stat-top-value">&mdash;</div>
+        <div class="label">Highest average value (15+ players)</div>
+      </div>
+    </div>
+  </section>
+
   <section class="finding conclusion">
     <p class="kicker">Conclusion</p>
     <h2>So, when do Premier League players peak?</h2>
@@ -352,5 +416,7 @@
 <script src="js/club-colors.js"></script>
 <script src="js/report.js"></script>
 <script src="js/squad-xi.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/globe.gl@2"></script>
+<script src="js/globe.js"></script>
 </body>
 </html>

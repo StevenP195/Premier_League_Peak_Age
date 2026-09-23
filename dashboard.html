@@ -115,6 +115,46 @@
         <tbody id="table-body"></tbody>
       </table>
     </div>
+
+    <section class="game-section">
+      <h2>Build your ideal Premier League player</h2>
+      <p>
+        Answer a few questions about the player you want, and we'll match you to a
+        real Premier League player from this data set based on their actual career
+        numbers &mdash; fame and market value never factor into the matching, so the
+        answer might not be who you'd expect.
+      </p>
+      <div class="game-card" id="game-card">
+        <div class="game-question">
+          <h3>1. Position</h3>
+          <div class="game-options" id="game-position"></div>
+        </div>
+        <div class="game-question">
+          <h3>2. Age profile</h3>
+          <div class="game-options" id="game-age"></div>
+        </div>
+        <div class="game-question">
+          <h3>3. What matters most? <span>(pick up to 2)</span></h3>
+          <div class="game-options" id="game-traits"></div>
+        </div>
+        <button class="reset" id="game-submit">Find my player</button>
+      </div>
+
+      <div class="game-result" id="game-result" hidden>
+        <div class="result-card">
+          <div class="result-crest" id="result-crest"></div>
+          <div class="result-info">
+            <h3 id="result-name"></h3>
+            <p id="result-meta"></p>
+            <ul id="result-stats"></ul>
+          </div>
+        </div>
+        <div class="game-result-actions">
+          <button class="reset" id="game-again">Try another match</button>
+          <button class="table-tab" id="game-restart">Start over</button>
+        </div>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -122,5 +162,6 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script src="js/club-colors.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/game.js"></script>
 </body>
 </html>
