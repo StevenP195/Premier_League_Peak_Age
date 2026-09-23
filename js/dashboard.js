@@ -239,11 +239,19 @@ function renderPanel(panelId, rows) {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (item) => `${MEASURES[measureSel.value].label}: ${item.formattedValue}`,
+          },
+        },
+      },
       scales: {
         x: { ticks: { color: cssVar("--text-muted") }, grid: { display: false } },
         y: {
           beginAtZero: true,
+          title: { display: true, text: MEASURES[measureSel.value].label, color: cssVar("--text-muted") },
           ticks: { color: cssVar("--text-muted") },
           grid: { color: cssVar("--gridline") },
         },
@@ -251,13 +259,13 @@ function renderPanel(panelId, rows) {
     },
   });
 
-  if (panelId === "panel1") renderTable(entries, breakdownSel.value);
+  if (panelId === "panel1") renderTable(entries, breakdownSel.value, measureSel.value);
 }
 
-function renderTable(entries, breakdownKey) {
+function renderTable(entries, breakdownKey, measureKey) {
   const thead = document.getElementById("table-head");
   const tbody = document.getElementById("table-body");
-  thead.innerHTML = `<tr><th>${BREAKDOWNS[breakdownKey].label}</th><th>Appearances</th><th>Value</th></tr>`;
+  thead.innerHTML = `<tr><th>${BREAKDOWNS[breakdownKey].label}</th><th>Appearances</th><th>${MEASURES[measureKey].label}</th></tr>`;
   tbody.innerHTML = entries
     .map((e) => `<tr><td>${e.category}</td><td>${e.n.toLocaleString()}</td><td>${e.value.toLocaleString()}</td></tr>`)
     .join("");
