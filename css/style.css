@@ -13,6 +13,11 @@
   --series-3: #1baf7a;
   --series-4: #eda100;
   --good: #0ca30c;
+  --pl-purple: #3d195b;
+  --pl-green: #00ff85;
+  --accent-primary: var(--pl-purple);
+  --accent-secondary: var(--pl-green);
+  --accent-text-on-primary: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +36,11 @@
     --series-3: #199e70;
     --series-4: #c98500;
     --good: #0ca30c;
+    --pl-purple: #6a3fa0;
+    --pl-green: #00ff85;
+    --accent-primary: var(--pl-purple);
+    --accent-secondary: var(--pl-green);
+    --accent-text-on-primary: #ffffff;
   }
 }
 
@@ -50,6 +60,11 @@ body {
   max-width: 860px;
   margin: 0 auto;
   padding: 0 16px;
+}
+
+.brand-strip {
+  height: 5px;
+  background: linear-gradient(90deg, var(--pl-purple), var(--pl-green));
 }
 
 header.site-header {
@@ -81,7 +96,7 @@ nav.site-nav {
 }
 
 nav.site-nav a {
-  color: var(--series-1);
+  color: var(--accent-primary);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
@@ -225,8 +240,35 @@ footer.site-footer {
   top: 0;
   background: var(--page);
   padding: 14px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 3px solid var(--accent-primary);
   z-index: 5;
+  transition: border-color 0.25s ease;
+}
+
+.club-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--accent-primary);
+  color: var(--accent-text-on-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.25s ease;
+}
+
+.club-badge .swatch2 {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-secondary);
+  display: inline-block;
+}
+
+.club-badge[hidden] {
+  display: none;
 }
 
 .controls-grid {
@@ -260,11 +302,12 @@ select, button {
 }
 
 button.reset {
-  background: var(--series-1);
-  color: white;
+  background: var(--accent-primary);
+  color: var(--accent-text-on-primary);
   border: none;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.25s ease;
 }
 
 button.reset:hover {

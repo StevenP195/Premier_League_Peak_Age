@@ -1058,113 +1058,269 @@
     "market_value_by_age": [
       {
         "age": 17,
-        "value": 1883244.0,
-        "n": 430
+        "value": 1754155.0,
+        "n": 71
       },
       {
         "age": 18,
-        "value": 2842857.0,
-        "n": 1456
+        "value": 4146824.0,
+        "n": 307
       },
       {
         "age": 19,
-        "value": 4273331.0,
-        "n": 2640
+        "value": 6489431.0,
+        "n": 715
       },
       {
         "age": 20,
-        "value": 6046177.0,
-        "n": 3578
+        "value": 7465695.0,
+        "n": 1202
       },
       {
         "age": 21,
-        "value": 7876873.0,
-        "n": 4100
+        "value": 9362054.0,
+        "n": 1616
       },
       {
         "age": 22,
-        "value": 9850869.0,
-        "n": 4339
+        "value": 12085101.0,
+        "n": 1833
       },
       {
         "age": 23,
-        "value": 11678081.0,
-        "n": 4507
+        "value": 13763878.0,
+        "n": 2104
       },
       {
         "age": 24,
-        "value": 13028103.0,
-        "n": 4426
+        "value": 15106090.0,
+        "n": 2284
       },
       {
         "age": 25,
-        "value": 13728732.0,
-        "n": 4336
+        "value": 15512043.0,
+        "n": 2367
       },
       {
         "age": 26,
-        "value": 14116151.0,
-        "n": 4235
+        "value": 16019004.0,
+        "n": 2364
       },
       {
         "age": 27,
-        "value": 13172723.0,
-        "n": 3986
+        "value": 14578894.0,
+        "n": 2279
       },
       {
         "age": 28,
-        "value": 12613468.0,
-        "n": 3798
+        "value": 13724544.0,
+        "n": 2136
       },
       {
         "age": 29,
-        "value": 11076019.0,
-        "n": 3485
+        "value": 11863048.0,
+        "n": 1872
       },
       {
         "age": 30,
-        "value": 8998508.0,
-        "n": 3193
+        "value": 9318438.0,
+        "n": 1665
       },
       {
         "age": 31,
-        "value": 6915598.0,
-        "n": 2808
+        "value": 7101742.0,
+        "n": 1421
       },
       {
         "age": 32,
-        "value": 4985649.0,
-        "n": 2505
+        "value": 5080766.0,
+        "n": 1214
       },
       {
         "age": 33,
-        "value": 3480708.0,
-        "n": 2089
+        "value": 3417104.0,
+        "n": 972
       },
       {
         "age": 34,
-        "value": 2222206.0,
-        "n": 1625
+        "value": 2193263.0,
+        "n": 737
       },
       {
         "age": 35,
-        "value": 1528418.0,
-        "n": 1185
+        "value": 1359494.0,
+        "n": 524
       },
       {
         "age": 36,
-        "value": 1283417.0,
-        "n": 796
+        "value": 962423.0,
+        "n": 326
       },
       {
         "age": 37,
-        "value": 959043.0,
-        "n": 470
+        "value": 1074029.0,
+        "n": 206
       },
       {
         "age": 38,
-        "value": 913163.0,
-        "n": 283
+        "value": 923633.0,
+        "n": 128
+      }
+    ],
+    "top_value_by_age": [
+      {
+        "age": 17,
+        "player_name": "Rio Ngumoha",
+        "value": 15000000.0,
+        "club_name": "Liverpool FC",
+        "date": "2025-10-17"
+      },
+      {
+        "age": 18,
+        "player_name": "Ethan Nwaneri",
+        "value": 55000000.0,
+        "club_name": "Arsenal FC",
+        "date": "2025-03-18"
+      },
+      {
+        "age": 19,
+        "player_name": "Est\u00eav\u00e3o",
+        "value": 80000000.0,
+        "club_name": "Chelsea FC",
+        "date": "2025-12-09"
+      },
+      {
+        "age": 20,
+        "player_name": "Junior Kroupi",
+        "value": 70000000.0,
+        "club_name": "AFC Bournemouth",
+        "date": "2026-06-03"
+      },
+      {
+        "age": 21,
+        "player_name": "Trent Alexander-Arnold",
+        "value": 110000000.0,
+        "club_name": "Liverpool FC",
+        "date": "2019-12-10"
+      },
+      {
+        "age": 22,
+        "player_name": "Erling Haaland",
+        "value": 170000000.0,
+        "club_name": "Manchester City",
+        "date": "2022-11-03"
+      },
+      {
+        "age": 23,
+        "player_name": "Erling Haaland",
+        "value": 180000000.0,
+        "club_name": "Manchester City",
+        "date": "2023-06-20"
+      },
+      {
+        "age": 24,
+        "player_name": "Erling Haaland",
+        "value": 200000000.0,
+        "club_name": "Manchester City",
+        "date": "2024-10-01"
+      },
+      {
+        "age": 25,
+        "player_name": "Erling Haaland",
+        "value": 200000000.0,
+        "club_name": "Manchester City",
+        "date": "2025-12-09"
+      },
+      {
+        "age": 26,
+        "player_name": "Erling Haaland",
+        "value": 200000000.0,
+        "club_name": "Manchester City",
+        "date": "2026-06-03"
+      },
+      {
+        "age": 27,
+        "player_name": "Kevin De Bruyne",
+        "value": 150000000.0,
+        "club_name": "Manchester City",
+        "date": "2018-05-28"
+      },
+      {
+        "age": 28,
+        "player_name": "Kevin De Bruyne",
+        "value": 150000000.0,
+        "club_name": "Manchester City",
+        "date": "2019-12-10"
+      },
+      {
+        "age": 29,
+        "player_name": "Kevin De Bruyne",
+        "value": 120000000.0,
+        "club_name": "Manchester City",
+        "date": "2020-04-08"
+      },
+      {
+        "age": 30,
+        "player_name": "Kevin De Bruyne",
+        "value": 100000000.0,
+        "club_name": "Manchester City",
+        "date": "2021-03-18"
+      },
+      {
+        "age": 31,
+        "player_name": "Kevin De Bruyne",
+        "value": 85000000.0,
+        "club_name": "Manchester City",
+        "date": "2022-06-15"
+      },
+      {
+        "age": 32,
+        "player_name": "Kevin De Bruyne",
+        "value": 70000000.0,
+        "club_name": "Manchester City",
+        "date": "2023-06-20"
+      },
+      {
+        "age": 33,
+        "player_name": "Mohamed Salah",
+        "value": 55000000.0,
+        "club_name": "Liverpool FC",
+        "date": "2024-12-16"
+      },
+      {
+        "age": 34,
+        "player_name": "Kevin De Bruyne",
+        "value": 27000000.0,
+        "club_name": "Manchester City",
+        "date": "2025-03-18"
+      },
+      {
+        "age": 35,
+        "player_name": "Virgil van Dijk",
+        "value": 15000000.0,
+        "club_name": "Liverpool FC",
+        "date": "2026-06-03"
+      },
+      {
+        "age": 36,
+        "player_name": "Ryan Giggs",
+        "value": 7500000.0,
+        "club_name": "Manchester United",
+        "date": "2009-06-29"
+      },
+      {
+        "age": 37,
+        "player_name": "Cristiano Ronaldo",
+        "value": 35000000.0,
+        "club_name": "Manchester United",
+        "date": "2021-12-23"
+      },
+      {
+        "age": 38,
+        "player_name": "Cristiano Ronaldo",
+        "value": 20000000.0,
+        "club_name": "Manchester United",
+        "date": "2022-09-15"
       }
     ],
     "cards_by_age": [
@@ -1482,8 +1638,8 @@
     },
     "peak_market_value_age": {
       "age": 26,
-      "value": 14116151.0,
-      "n": 4235
+      "value": 16019004.0,
+      "n": 2364
     },
     "lowest_cards_age": {
       "group": null,

@@ -19,6 +19,74 @@ function ageBucket(age) {
   return b ? b.label : "Unknown";
 }
 
+const CLUB_COLORS = {
+  "AFC Bournemouth": ["#DA291C", "#000000"],
+  "Arsenal FC": ["#EF0107", "#063672"],
+  "Aston Villa": ["#670E36", "#95BFE5"],
+  "Brentford FC": ["#E30613", "#FFB81C"],
+  "Brighton & Hove Albion": ["#0057B8", "#FFCD00"],
+  "Burnley FC": ["#6C1D45", "#99D6EA"],
+  "Cardiff City": ["#0070B5", "#D11524"],
+  "Chelsea FC": ["#034694", "#FFFFFF"],
+  "Crystal Palace": ["#1B458F", "#C4122E"],
+  "Everton FC": ["#003399", "#FFFFFF"],
+  "Fulham FC": ["#000000", "#CC0000"],
+  "Huddersfield Town": ["#0E63AD", "#FFFFFF"],
+  "Hull City": ["#F18A00", "#000000"],
+  "Ipswich Town": ["#0044A9", "#FFFFFF"],
+  "Leeds United": ["#1D428A", "#FFCD00"],
+  "Leicester City": ["#003090", "#FDBE11"],
+  "Liverpool FC": ["#C8102E", "#00B2A9"],
+  "Luton Town": ["#F78F1E", "#002D62"],
+  "Manchester City": ["#6CABDD", "#1C2C5B"],
+  "Manchester United": ["#DA291C", "#FBE122"],
+  "Middlesbrough FC": ["#E01A22", "#FFFFFF"],
+  "Newcastle United": ["#241F20", "#FFFFFF"],
+  "Norwich City": ["#00A650", "#FFF200"],
+  "Nottingham Forest": ["#DD0000", "#FFFFFF"],
+  "Queens Park Rangers": ["#1D5BA4", "#FFFFFF"],
+  "Reading FC": ["#004494", "#FFFFFF"],
+  "Sheffield United": ["#EE2737", "#FFFFFF"],
+  "Southampton FC": ["#D71920", "#FFFFFF"],
+  "Stoke City": ["#E03A3E", "#1B449C"],
+  "Sunderland AFC": ["#EB172B", "#FFFFFF"],
+  "Swansea City": ["#000000", "#FFFFFF"],
+  "Tottenham Hotspur": ["#132257", "#FFFFFF"],
+  "Watford FC": ["#FBEE23", "#ED2127"],
+  "West Bromwich Albion": ["#122F67", "#FFFFFF"],
+  "West Ham United": ["#7A263A", "#1BB1E7"],
+  "Wigan Athletic": ["#1D59AF", "#FFFFFF"],
+  "Wolverhampton Wanderers": ["#FDB913", "#231F20"],
+};
+
+function readableTextColor(hex) {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substring(0, 2), 16);
+  const g = parseInt(c.substring(2, 4), 16);
+  const b = parseInt(c.substring(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? "#0b0b0b" : "#ffffff";
+}
+
+function applyClubTheme(clubName) {
+  const root = document.documentElement;
+  const badge = document.getElementById("club-badge");
+  const badgeName = document.getElementById("club-badge-name");
+  if (clubName && CLUB_COLORS[clubName]) {
+    const [primary, secondary] = CLUB_COLORS[clubName];
+    root.style.setProperty("--accent-primary", primary);
+    root.style.setProperty("--accent-secondary", secondary);
+    root.style.setProperty("--accent-text-on-primary", readableTextColor(primary));
+    badge.hidden = false;
+    badgeName.textContent = clubName;
+  } else {
+    root.style.removeProperty("--accent-primary");
+    root.style.removeProperty("--accent-secondary");
+    root.style.removeProperty("--accent-text-on-primary");
+    badge.hidden = true;
+  }
+}
+
 let ALL_ROWS = [];
 let charts = {};
 
@@ -94,6 +162,7 @@ const BREAKDOWNS = {
   season: { label: "Season", key: (r) => r.season },
   club: { label: "Club", key: (r) => r.club_name },
   age_bucket: { label: "Age group", key: (r) => ageBucket(r.age) },
+  player: { label: "Player (top 20)", key: (r) => r.player_name },
 };
 
 function sum(rows, field) {
@@ -148,7 +217,10 @@ function renderPanel(panelId, rows) {
   const entries = aggregate(rows, breakdownSel.value, measureSel.value).slice(0, 20);
 
   const ctx = document.getElementById(`${panelId}-canvas`);
-  const colors = entries.map((e) => cssVar(POSITION_COLOR[e.category] || "--series-1"));
+  const colors =
+    breakdownSel.value === "position"
+      ? entries.map((e) => cssVar(POSITION_COLOR[e.category] || "--accent-primary"))
+      : entries.map((e) => cssVar("--accent-primary"));
 
   if (charts[panelId]) charts[panelId].destroy();
   charts[panelId] = new Chart(ctx, {
@@ -194,6 +266,7 @@ function renderTable(entries, breakdownKey) {
 function renderAll() {
   const f = currentFilters();
   const rows = applyFilters(ALL_ROWS, f);
+  applyClubTheme(f.club);
   updateSummary(rows);
   for (const panelId of ["panel1", "panel2", "panel3", "panel4"]) {
     renderPanel(panelId, rows);
@@ -212,7 +285,7 @@ function setupPanelDefaults() {
   const defaults = {
     panel1: { breakdown: "position", measure: "gi_per90" },
     panel2: { breakdown: "age_bucket", measure: "count" },
-    panel3: { breakdown: "season", measure: "total_gi" },
+    panel3: { breakdown: "player", measure: "total_gi" },
     panel4: { breakdown: "club", measure: "median_age" },
   };
   for (const [panelId, d] of Object.entries(defaults)) {

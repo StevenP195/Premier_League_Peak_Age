@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+<div class="brand-strip"></div>
 <div class="wrap">
   <header class="site-header">
     <h1>When Do Premier League Players Peak?</h1>
@@ -188,6 +189,46 @@
     </p>
     <div class="chart-card">
       <canvas id="chart-minutes-share"></canvas>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 9 &middot; Market value, name by name</p>
+    <h2>Who was the most valuable Premier League player at each age?</h2>
+    <p>
+      Finding 6 showed the <em>average</em> market value curve; this is the
+      individual record at each age instead &mdash; the single highest market
+      value any player reached while contracted to a Premier League club, at
+      that exact age. Erling Haaland owns the ceiling from 22 through 26, level
+      at &euro;200M in this data set, matching Finding 6's average peak age of
+      26 almost exactly. Kevin De Bruyne, a midfielder rather than a forward,
+      holds the record at six different ages from 27 to 34, which is the
+      longest individual run in the chart. The one real surprise is age 21:
+      the record there belongs to Trent Alexander-Arnold (&euro;110M), a
+      right-back, in a chart otherwise dominated by attacking players.
+    </p>
+    <p>
+      Read the youngest ages carefully. The records at 17&ndash;20 all come
+      from very recent (2025&ndash;2026) valuations of highly-rated academy
+      players, not necessarily because those teenagers are generational
+      talents on Haaland's level, but because transfer valuations across the
+      whole market have risen substantially over the decade this data
+      covers &mdash; a recent 18-year-old's record is competing against a
+      2010s 18-year-old's record set when valuations league-wide were lower.
+      This chart shows single record-holders, not a smoothed trend, so unlike
+      every earlier chart in this report it isn't filtered by minutes played
+      or minimum sample size &mdash; that's intentional here.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-top-value"></canvas>
+    </div>
+    <div class="table-wrap" style="margin-top:14px">
+      <table class="data-table">
+        <thead>
+          <tr><th>Age</th><th>Player</th><th>Market value</th><th>Club</th><th>Date recorded</th></tr>
+        </thead>
+        <tbody id="top-value-table-body"></tbody>
+      </table>
     </div>
   </section>
 

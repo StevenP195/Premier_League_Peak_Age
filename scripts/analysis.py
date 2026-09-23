@@ -62,8 +62,12 @@ findings["gk_save_by_age"] = age_curve(gk_df, "gk_save_pct", "minutes", None, mi
 
 # 7. Market value by age (using player_valuations directly, all valuation points, not just season summary)
 con = duckdb.connect()
-players = con.execute(f"SELECT player_id, date_of_birth FROM read_csv_auto('{RAW}/players.csv')").fetchdf()
-val = con.execute(f"SELECT player_id, date, market_value_in_eur FROM read_csv_auto('{RAW}/player_valuations.csv')").fetchdf()
+players = con.execute(f"SELECT player_id, date_of_birth, name AS player_name FROM read_csv_auto('{RAW}/players.csv')").fetchdf()
+val = con.execute(f"""
+    SELECT player_id, date, market_value_in_eur, current_club_name
+    FROM read_csv_auto('{RAW}/player_valuations.csv')
+    WHERE player_club_domestic_competition_id = 'GB1'
+""").fetchdf()
 val = val.merge(players, on="player_id", how="inner")
 val["date"] = pd.to_datetime(val["date"])
 val["date_of_birth"] = pd.to_datetime(val["date_of_birth"])
@@ -76,6 +80,19 @@ mv = val.groupby("age_int")["market_value_in_eur"].agg(["mean", "count"]).reset_
 mv = mv[mv["count"] >= 30]
 findings["market_value_by_age"] = [
     {"age": int(r.age_int), "value": round(float(r.mean), 0), "n": int(r.count)} for r in mv.itertuples()
+]
+
+top_idx = val.groupby("age_int")["market_value_in_eur"].idxmax()
+top_val = val.loc[top_idx].sort_values("age_int")
+findings["top_value_by_age"] = [
+    {
+        "age": int(r.age_int),
+        "player_name": r.player_name,
+        "value": round(float(r.market_value_in_eur), 0),
+        "club_name": r.current_club_name,
+        "date": r.date.strftime("%Y-%m-%d"),
+    }
+    for r in top_val.itertuples()
 ]
 
 # 8. Cards per 90 by age
@@ -118,7 +135,7 @@ summary_stats = {
     "fbref_match_rate": round(pass_df["player_id"].nunique() / core["player_id"].nunique(), 3),
 }
 
-with open(f"{DATA}/report_findings.json", "w") as f:
+with open(f"{DATA}/report_findings.json", "w", encoding="utf-8") as f:
     json.dump({"findings": findings, "summary": summary_stats}, f, indent=2, default=str)
 
 print(json.dumps(summary_stats, indent=2, default=str))

@@ -109,6 +109,69 @@ function groupByField(rows, field) {
   return out;
 }
 
+function renderTopValueChart(canvasId, rows) {
+  const ctx = document.getElementById(canvasId);
+  const color = cssVar("--pl-purple");
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: rows.map((r) => r.age),
+      datasets: [
+        {
+          label: "Market value while at a Premier League club",
+          data: rows.map((r) => r.value),
+          backgroundColor: color,
+          borderRadius: 4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: cssVar("--surface"),
+          titleColor: cssVar("--text-primary"),
+          bodyColor: cssVar("--text-secondary"),
+          borderColor: cssVar("--border"),
+          borderWidth: 1,
+          callbacks: {
+            title: (items) => `Age ${items[0].label}`,
+            label: (item) => {
+              const r = rows[item.dataIndex];
+              return [`${r.player_name} — ${fmtMoney(r.value)}`, `${r.club_name}, ${r.date}`];
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: "Age", color: cssVar("--text-muted") },
+          grid: { display: false },
+          ticks: { color: cssVar("--text-muted") },
+        },
+        y: {
+          title: { display: true, text: "Market value (€)", color: cssVar("--text-muted") },
+          beginAtZero: true,
+          grid: { color: cssVar("--gridline") },
+          ticks: { color: cssVar("--text-muted") },
+        },
+      },
+    },
+  });
+}
+
+function renderTopValueTable(rows) {
+  const tbody = document.getElementById("top-value-table-body");
+  tbody.innerHTML = rows
+    .map(
+      (r) =>
+        `<tr><td>${r.age}</td><td>${r.player_name}</td><td>${fmtMoney(r.value)}</td><td>${r.club_name}</td><td>${r.date}</td></tr>`
+    )
+    .join("");
+}
+
 async function main() {
   const res = await fetch("data/report_findings.json");
   const { findings, summary } = await res.json();
@@ -134,6 +197,8 @@ async function main() {
   renderSingleLine("chart-market-value", findings.market_value_by_age, "Average market value (€)", "--series-3");
   renderSingleLine("chart-cards", findings.cards_by_age, "Yellow + red cards per 90", "--series-2");
   renderBar("chart-minutes-share", findings.minutes_share_by_age, "% of all Premier League minutes", "--series-4");
+  renderTopValueChart("chart-top-value", findings.top_value_by_age);
+  renderTopValueTable(findings.top_value_by_age);
 }
 
 main();
