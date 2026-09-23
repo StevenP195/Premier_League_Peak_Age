@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
   --surface: #fcfcfb;
-  --page: #f9f9f7;
+  --page: #eefdff;
   --text-primary: #0b0b0b;
   --text-secondary: #52514e;
   --text-muted: #898781;
@@ -20,29 +20,6 @@
   --accent-text-on-primary: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --surface: #1a1a19;
-    --page: #0d0d0d;
-    --text-primary: #ffffff;
-    --text-secondary: #c3c2b7;
-    --text-muted: #898781;
-    --gridline: #2c2c2a;
-    --baseline: #383835;
-    --border: rgba(255, 255, 255, 0.1);
-    --series-1: #3987e5;
-    --series-2: #d95926;
-    --series-3: #199e70;
-    --series-4: #c98500;
-    --good: #0ca30c;
-    --pl-purple: #6a3fa0;
-    --pl-green: #00ff85;
-    --accent-primary: var(--pl-purple);
-    --accent-secondary: var(--pl-green);
-    --accent-text-on-primary: #ffffff;
-  }
-}
 
 * {
   box-sizing: border-box;
@@ -70,6 +47,24 @@ body {
 header.site-header {
   padding: 48px 0 28px;
   border-bottom: 1px solid var(--border);
+}
+
+.pl-badge {
+  position: fixed;
+  top: 17px;
+  right: 20px;
+  width: 84px;
+  height: auto;
+  z-index: 20;
+  filter: drop-shadow(0 2px 6px rgba(11, 11, 11, 0.18));
+}
+
+@media (max-width: 640px) {
+  .pl-badge {
+    width: 52px;
+    top: 13px;
+    right: 12px;
+  }
 }
 
 header.site-header h1 {
@@ -265,6 +260,21 @@ footer.site-footer {
   border-radius: 50%;
   background: var(--accent-secondary);
   display: inline-block;
+}
+
+.club-badge .crest {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: none;
+}
+
+.club-badge.has-crest .crest {
+  display: inline-block;
+}
+
+.club-badge.has-crest .swatch2 {
+  display: none;
 }
 
 .club-badge[hidden] {

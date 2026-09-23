@@ -59,6 +59,46 @@ const CLUB_COLORS = {
   "Wolverhampton Wanderers": ["#FDB913", "#231F20"],
 };
 
+const CLUB_CRESTS = {
+  "AFC Bournemouth": "afc-bournemouth",
+  "Arsenal FC": "arsenal-fc",
+  "Aston Villa": "aston-villa",
+  "Brentford FC": "brentford-fc",
+  "Brighton & Hove Albion": "brighton",
+  "Burnley FC": "burnley-fc",
+  "Cardiff City": "cardiff-city",
+  "Chelsea FC": "chelsea-fc",
+  "Crystal Palace": "crystal-palace",
+  "Everton FC": "everton-fc",
+  "Fulham FC": "fulham-fc",
+  "Huddersfield Town": "huddersfield-town",
+  "Hull City": "hull-city",
+  "Ipswich Town": "ipswich-town",
+  "Leeds United": "leeds-united",
+  "Leicester City": "leicester-city",
+  "Liverpool FC": "liverpool-fc",
+  "Luton Town": "luton-town",
+  "Manchester City": "manchester-city",
+  "Manchester United": "manchester-united",
+  "Middlesbrough FC": "middlesbrough-fc",
+  "Newcastle United": "newcastle-united",
+  "Norwich City": "norwich-city",
+  "Nottingham Forest": "nottingham-forest",
+  "Queens Park Rangers": "queens-park-rangers",
+  "Reading FC": "reading-fc",
+  "Sheffield United": "sheffield-united",
+  "Southampton FC": "southampton-fc",
+  "Stoke City": "stoke-city",
+  "Sunderland AFC": "sunderland-afc",
+  "Swansea City": "swansea-city",
+  "Tottenham Hotspur": "tottenham-hotspur",
+  "Watford FC": "watford-fc",
+  "West Bromwich Albion": "west-bromwich-albion",
+  "West Ham United": "west-ham-united",
+  "Wigan Athletic": "wigan-athletic",
+  "Wolverhampton Wanderers": "wolverhampton-wanderers",
+};
+
 function readableTextColor(hex) {
   const c = hex.replace("#", "");
   const r = parseInt(c.substring(0, 2), 16);
@@ -72,6 +112,7 @@ function applyClubTheme(clubName) {
   const root = document.documentElement;
   const badge = document.getElementById("club-badge");
   const badgeName = document.getElementById("club-badge-name");
+  const badgeCrest = document.getElementById("club-badge-crest");
   if (clubName && CLUB_COLORS[clubName]) {
     const [primary, secondary] = CLUB_COLORS[clubName];
     root.style.setProperty("--accent-primary", primary);
@@ -79,11 +120,21 @@ function applyClubTheme(clubName) {
     root.style.setProperty("--accent-text-on-primary", readableTextColor(primary));
     badge.hidden = false;
     badgeName.textContent = clubName;
+    const crestSlug = CLUB_CRESTS[clubName];
+    if (crestSlug) {
+      badgeCrest.src = `assets/crests/${crestSlug}.png`;
+      badgeCrest.alt = `${clubName} crest`;
+      badge.classList.add("has-crest");
+    } else {
+      badgeCrest.removeAttribute("src");
+      badge.classList.remove("has-crest");
+    }
   } else {
     root.style.removeProperty("--accent-primary");
     root.style.removeProperty("--accent-secondary");
     root.style.removeProperty("--accent-text-on-primary");
     badge.hidden = true;
+    badge.classList.remove("has-crest");
   }
 }
 
