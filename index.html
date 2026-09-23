@@ -194,42 +194,57 @@
   </section>
 
   <section class="finding">
-    <p class="kicker">Finding 9 &middot; Market value, name by name</p>
-    <h2>Who was the most valuable Premier League player at each age?</h2>
+    <p class="kicker">Finding 9 &middot; The most valuable XI at every age</p>
+    <h2>Who would the most valuable Premier League XI be, age by age?</h2>
     <p>
-      Finding 6 showed the <em>average</em> market value curve; this is the
-      individual record at each age instead &mdash; the single highest market
-      value any player reached while contracted to a Premier League club, at
-      that exact age. Erling Haaland owns the ceiling from 22 through 26, level
-      at &euro;200M in this data set, matching Finding 6's average peak age of
-      26 almost exactly. Kevin De Bruyne, a midfielder rather than a forward,
-      holds the record at six different ages from 27 to 34, which is the
-      longest individual run in the chart. The one real surprise is age 21:
-      the record there belongs to Trent Alexander-Arnold (&euro;110M), a
-      right-back, in a chart otherwise dominated by attacking players.
+      Instead of one record-holder per age, this is a full 4-3-3 &mdash; the
+      single highest-valued Premier League player at each specific position
+      (by sub-position: left-back, centre-back, defensive midfield, and so on)
+      for whatever age you pick. Drag the slider to see how the league's
+      most valuable lineup reshapes as it ages: young, cheap fullbacks giving
+      way to peak-value forwards in their mid-20s, then a defense-heavy,
+      experience-priced XI by the mid-30s. Switch the team filter to see one
+      club's own most valuable lineup at that age instead of the whole league.
+      Hover any player for their age, club, and market value on that date.
     </p>
-    <p>
-      Read the youngest ages carefully. The records at 17&ndash;20 all come
-      from very recent (2025&ndash;2026) valuations of highly-rated academy
-      players, not necessarily because those teenagers are generational
-      talents on Haaland's level, but because transfer valuations across the
-      whole market have risen substantially over the decade this data
-      covers &mdash; a recent 18-year-old's record is competing against a
-      2010s 18-year-old's record set when valuations league-wide were lower.
-      This chart shows single record-holders, not a smoothed trend, so unlike
-      every earlier chart in this report it isn't filtered by minutes played
-      or minimum sample size &mdash; that's intentional here.
-    </p>
-    <div class="chart-card">
-      <canvas id="chart-top-value"></canvas>
+    <div class="xi-controls">
+      <div class="control">
+        <label for="xi-age">Age: <span id="xi-age-value">24</span></label>
+        <input type="range" id="xi-age" min="16" max="40" value="24" />
+      </div>
+      <div class="control">
+        <label for="xi-club">Team</label>
+        <select id="xi-club"></select>
+      </div>
     </div>
-    <div class="table-wrap" style="margin-top:14px">
-      <table class="data-table">
-        <thead>
-          <tr><th>Age</th><th>Player</th><th>Market value</th><th>Club</th><th>Date recorded</th></tr>
-        </thead>
-        <tbody id="top-value-table-body"></tbody>
-      </table>
+    <div class="pitch-card">
+      <div class="pitch" id="xi-pitch">
+        <svg class="pitch-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <rect x="1" y="1" width="98" height="98" fill="none" stroke="white" stroke-width="0.4" />
+          <line x1="1" y1="50" x2="99" y2="50" stroke="white" stroke-width="0.4" />
+          <circle cx="50" cy="50" r="9" fill="none" stroke="white" stroke-width="0.4" />
+          <rect x="22" y="1" width="56" height="16" fill="none" stroke="white" stroke-width="0.4" />
+          <rect x="22" y="83" width="56" height="16" fill="none" stroke="white" stroke-width="0.4" />
+          <rect x="38" y="1" width="24" height="6" fill="none" stroke="white" stroke-width="0.4" />
+          <rect x="38" y="93" width="24" height="6" fill="none" stroke="white" stroke-width="0.4" />
+        </svg>
+        <div class="pitch-dots" id="xi-dots"></div>
+        <div class="xi-tooltip" id="xi-tooltip" hidden></div>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-tile">
+        <div class="value" id="xi-total-value">&mdash;</div>
+        <div class="label">Total XI market value</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="xi-highest-name">&mdash;</div>
+        <div class="label">Highest-valued player in this XI</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="xi-highest-detail">&mdash;</div>
+        <div class="label">Their club at that age</div>
+      </div>
     </div>
   </section>
 
@@ -291,6 +306,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="js/club-colors.js"></script>
 <script src="js/report.js"></script>
+<script src="js/squad-xi.js"></script>
 </body>
 </html>
