@@ -92,20 +92,36 @@ header.site-header h1 {
 }
 
 nav.site-nav {
-  margin-top: 20px;
   display: flex;
-  gap: 16px;
+  gap: 24px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+nav.site-nav .nav-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  gap: 24px;
 }
 
 nav.site-nav a {
-  color: var(--accent-primary);
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 nav.site-nav a:hover {
-  text-decoration: underline;
+  color: var(--accent-primary);
+}
+
+nav.site-nav a.current {
+  color: var(--accent-primary);
+  border-bottom: 2px solid var(--accent-primary);
+  padding-bottom: 2px;
 }
 
 .stat-row {
