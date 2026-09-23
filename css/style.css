@@ -316,6 +316,19 @@ section.finding p {
   max-width: 200px;
 }
 
+.conclusion {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--pl-gradient-end);
+  border-radius: 10px;
+  padding: 28px 28px 8px;
+  margin-top: 8px;
+}
+
+.conclusion h2 {
+  font-size: 1.5rem;
+}
+
 .about {
   padding: 40px 0 72px;
 }
