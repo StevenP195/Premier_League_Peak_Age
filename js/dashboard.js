@@ -222,16 +222,36 @@ function renderPanel(panelId, rows) {
     },
   });
 
-  if (panelId === "panel1") renderTable(entries, breakdownSel.value, measureSel.value);
+  PANEL_ENTRIES[panelId] = { entries, breakdownKey: breakdownSel.value, measureKey: measureSel.value };
 }
 
-function renderTable(entries, breakdownKey, measureKey) {
+const PANEL_ENTRIES = {};
+let activeTablePanel = "panel1";
+
+function updateTable() {
+  const data = PANEL_ENTRIES[activeTablePanel];
+  if (!data) return;
+  const { entries, breakdownKey, measureKey } = data;
   const thead = document.getElementById("table-head");
   const tbody = document.getElementById("table-body");
   thead.innerHTML = `<tr><th>${BREAKDOWNS[breakdownKey].label}</th><th>Appearances</th><th>${MEASURES[measureKey].label}</th></tr>`;
   tbody.innerHTML = entries
     .map((e) => `<tr><td>${e.category}</td><td>${e.n.toLocaleString()}</td><td>${e.value.toLocaleString()}</td></tr>`)
     .join("");
+  const panelNum = activeTablePanel.replace("panel", "");
+  document.getElementById("table-subtitle").textContent =
+    `Panel ${panelNum}: ${BREAKDOWNS[breakdownKey].label} × ${MEASURES[measureKey].label}`;
+}
+
+function setupTableTabs() {
+  const tabs = document.querySelectorAll(".table-tab");
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      activeTablePanel = tab.dataset.panel;
+      tabs.forEach((t) => t.classList.toggle("active", t === tab));
+      updateTable();
+    });
+  });
 }
 
 function renderAll() {
@@ -242,6 +262,7 @@ function renderAll() {
   for (const panelId of ["panel1", "panel2", "panel3", "panel4"]) {
     renderPanel(panelId, rows);
   }
+  updateTable();
 }
 
 function resetFilters() {
@@ -306,6 +327,7 @@ async function main() {
     document.getElementById(id).addEventListener("change", renderAll);
   }
   document.getElementById("reset-btn").addEventListener("click", resetFilters);
+  setupTableTabs();
 
   document.getElementById("loading").style.display = "none";
   document.getElementById("dashboard-body").style.display = "block";

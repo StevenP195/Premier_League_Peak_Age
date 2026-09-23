@@ -483,6 +483,39 @@ main.dashboard-main {
   min-width: 130px;
 }
 
+.table-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0 4px;
+}
+
+.table-tab {
+  background: var(--surface);
+  border: 1px solid var(--baseline);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.table-tab:hover {
+  border-color: var(--accent-primary);
+}
+
+.table-tab.active {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--accent-text-on-primary);
+}
+
+.table-subtitle {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0 0 4px;
+}
+
 table.data-table {
   width: 100%;
   border-collapse: collapse;
