@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>When Do Premier League Players Peak?</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="wrap">
+  <header class="site-header">
+    <h1>When Do Premier League Players Peak?</h1>
+    <p class="byline">Steven Prusak</p>
+    <p class="summary">
+      This report tracks 2,465 Premier League players across 149,637 individual match
+      appearances and 14 seasons (2012/13 through 2025/26), combining Transfermarkt's
+      match-by-match records with FBref's advanced stats and EA Sports FIFA ratings to ask
+      a simple question: at what age does a footballer actually perform best? The answer
+      depends heavily on what "best" means and what position a player fills &mdash; goal
+      involvement, passing, defending, aerial duels, shot-stopping, and market value each
+      peak at a different age, and none of them peak as early as most fans assume.
+    </p>
+    <nav class="site-nav">
+      <a href="dashboard.html">Open the interactive dashboard &rarr;</a>
+    </nav>
+  </header>
+
+  <section class="stat-row">
+    <div class="stat-tile">
+      <div class="value" id="stat-matches">&mdash;</div>
+      <div class="label">Player-match rows analyzed</div>
+    </div>
+    <div class="stat-tile">
+      <div class="value" id="stat-seasons">&mdash;</div>
+      <div class="label">Player-seasons (2012/13&ndash;2025/26)</div>
+    </div>
+    <div class="stat-tile">
+      <div class="value" id="stat-players">&mdash;</div>
+      <div class="label">Unique players covered</div>
+    </div>
+    <div class="stat-tile">
+      <div class="value" id="stat-peak-age">&mdash;</div>
+      <div class="label">Age of peak market value</div>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 1 &middot; Attacking output</p>
+    <h2>Goal involvement peaks in a player's early 20s &mdash; unless they're a forward</h2>
+    <p>
+      Across every outfield position, goal involvements (goals + assists) per 90 minutes
+      peak earliest for defenders, at age 20 (0.12 per 90), and for midfielders and
+      forwards the smoothed curve keeps climbing into a player's mid-30s (Attack: age 34
+      at 0.52 per 90; Midfield: age 34 at 0.26 per 90). Goalkeepers are essentially flat
+      near zero the whole way through (a peak of just 0.006 per 90 at age 32), which is
+      expected &mdash; it's also why the rest of this report tracks keepers on
+      shot-stopping instead of goals and assists.
+    </p>
+    <p>
+      Read the late peak for attackers and midfielders with one caveat: the Premier
+      League only keeps its best older players on the pitch. A 34-year-old still starting
+      matches has already survived a decade of squad cuts, so this curve mixes true aging
+      with survivorship &mdash; it shows who <em>stays</em> productive at the top level,
+      not what happens to the average player as they age.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-gi-position"></canvas>
+      <div class="legend">
+        <span class="legend-item"><span class="swatch" style="background:var(--series-1)"></span>Goalkeeper</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Defender</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-3)"></span>Midfield</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-4)"></span>Attack</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 2 &middot; Passing</p>
+    <h2>Passing accuracy peaks earlier than attacking output &mdash; around age 23</h2>
+    <p>
+      Pooling every outfield position with at least 450 minutes in a season and an FBref
+      match, pass completion rate peaks at age 23 (77.7%), a full decade before the
+      goal-involvement peak for attackers and midfielders. Passing is a more
+      technique-driven skill that top-flight players arrive with already refined; it
+      doesn't compound with the tactical experience and physical timing that late-career
+      creative and finishing numbers seem to reward.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-passing"></canvas>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 3 &middot; Defensive work-rate</p>
+    <h2>Defenders and midfielders do their most defending at 20, not 30</h2>
+    <p>
+      Tackles won plus interceptions per 90 minutes peaks at age 20 for both defenders
+      (2.72 per 90) and midfielders (2.40 per 90), then trends downward through a
+      player's late 20s and 30s. This is the opposite shape from the attacking curve in
+      Finding 1: young defensive players entering the league appear to compensate for
+      inexperience with sheer defensive activity and pressing intensity, while the
+      players who keep starting into their 30s do it with positioning rather than volume
+      of duels won.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-defensive"></canvas>
+      <div class="legend">
+        <span class="legend-item"><span class="swatch" style="background:var(--series-2)"></span>Defender</span>
+        <span class="legend-item"><span class="swatch" style="background:var(--series-3)"></span>Midfield</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 4 &middot; Aerial ability</p>
+    <h2>Aerial duel success keeps rising all the way to age 35</h2>
+    <p>
+      Of every metric in this report, aerial duel win rate has the latest peak: 61.8% at
+      age 35. Winning duels in the air rewards positioning, timing, and reading a cross
+      &mdash; skills built on experience rather than raw athleticism &mdash; and the
+      Premier League players still contesting headers at 35 are typically specialist
+      centre-backs whose whole game is built around exactly that skill.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-aerial"></canvas>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 5 &middot; Goalkeeping</p>
+    <h2>Goalkeepers peak latest of all &mdash; shot-stopping tops out at 33</h2>
+    <p>
+      Save percentage among Premier League goalkeepers peaks at age 33 (65.9%), later
+      than every outfield metric except aerial duels. Goalkeeping is the position where
+      Finding 1's flat goal-involvement curve is completely uninformative on its own
+      &mdash; shot-stopping is what actually separates a keeper's career arc, and it
+      rewards the same experience-over-athleticism pattern seen in aerial duels and
+      defending positioning.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-gk-save"></canvas>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 6 &middot; Market value</p>
+    <h2>Transfer market value peaks years before most on-pitch metrics do &mdash; at 26</h2>
+    <p>
+      Average market value across all outfield positions peaks at age 26 (&euro;14.1M),
+      based on 4,235 valuation snapshots. Age 26 is also, separately, the single age that
+      accounts for the largest share of all Premier League minutes played (11.76% of
+      total minutes) &mdash; clubs pay the most for, and give the most minutes to,
+      players who are past their defensive peak (Finding 3) but still years from their
+      attacking, aerial, and goalkeeping peaks. The market is pricing potential and
+      reliability together, not any single peak metric in isolation.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-market-value"></canvas>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 7 &middot; Discipline</p>
+    <h2>The "reckless youngster" stereotype doesn't hold &mdash; cards peak at 30</h2>
+    <p>
+      Yellow and red cards per 90 minutes are lowest at age 36 (0.138 per 90) but actually
+      peak at age 30 (0.168 per 90), not in a player's early 20s as the stereotype of
+      hot-headed youth might suggest. Players in their late 20s and early 30s &mdash;
+      the same window where defensive positioning has replaced defensive volume
+      (Finding 3) &mdash; appear to pick up more cards, plausibly from using fouls
+      tactically to break up play rather than losing their composure.
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-cards"></canvas>
+    </div>
+  </section>
+
+  <section class="finding">
+    <p class="kicker">Finding 8 &middot; Playing time</p>
+    <h2>No single age dominates minutes &mdash; the usage curve is broad and centered on 26</h2>
+    <p>
+      Even at its single most-used age, 26, that age group accounts for only 11.76% of
+      all Premier League minutes ever played in this data set. The distribution across
+      ages 20 through 33 is broad and gradual rather than sharply peaked, which matches
+      the overall picture from this report: there is no one age at which "peak Premier
+      League player" happens, because different skills top out anywhere from 20
+      (defensive work-rate) to 35 (aerial duels).
+    </p>
+    <div class="chart-card">
+      <canvas id="chart-minutes-share"></canvas>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2>About this data</h2>
+    <dl>
+      <dt>Sources</dt>
+      <dd>
+        Match-level appearances, player biographical data, and market valuations come
+        from a Transfermarkt export (via Kaggle). Advanced per-match-derived stats
+        (pass completion, take-on success, aerial duels, tackles, interceptions,
+        goalkeeper save/clean-sheet rates) come from two FBref-sourced Kaggle
+        datasets covering the 2017/18&ndash;2023/24 and 2024/25 seasons. FIFA/EA
+        Sports FC player ratings (overall, potential, pace) come from a Kaggle
+        mirror of the SoFIFA database, editions FIFA 15&ndash;23.
+      </dd>
+      <dt>What one row is</dt>
+      <dd>
+        The core data set is player-match: one row per player per Premier League
+        match appearance (149,637 rows, 2012/13&ndash;2025/26). For the age-curve
+        findings above, rows are aggregated to player-season (7,418 rows: one player,
+        one season) and then averaged within one-year age bins, weighted by minutes
+        played.
+      </dd>
+      <dt>Rows dropped, and why</dt>
+      <dd>
+        Player-seasons under 450 minutes (about five full matches) are excluded from
+        every age-curve chart to keep small sample-size noise from a fringe player's
+        cameo appearances from distorting the curve. Each one-year age bin is also
+        required to have a minimum number of player-seasons behind it (15&ndash;30,
+        depending on the metric) before it's plotted; thinner bins are dropped rather
+        than shown. Players missing a position or date of birth in the source data
+        are excluded entirely. Because none of the three sources share a player ID,
+        the FBref and FIFA files are joined onto Transfermarkt records by normalized
+        player name, which matched 62% of core player-seasons to FBref stats and
+        37% to FIFA ratings &mdash; unmatched seasons simply have blank values for
+        those columns and are excluded from charts that depend on them.
+      </dd>
+      <dt>How rates are computed</dt>
+      <dd>
+        "Per 90" rates divide a summed total (goals, assists, tackles won +
+        interceptions, cards) by total minutes played in that player-season, then
+        multiply by 90. Percentage rates (pass completion, take-on success, aerial
+        duel win rate, save percentage) are taken directly from FBref's own
+        season-level percentages and averaged across players within an age bin,
+        weighted by minutes played. Every age-bin line in the charts above is a
+        3-year centered moving average of the minutes-weighted per-age value, to
+        smooth single-age sample noise without changing where each curve peaks by
+        more than a year.
+      </dd>
+    </dl>
+  </section>
+
+  <footer class="site-footer">
+    Built with Transfermarkt, FBref, and SoFIFA/EA Sports FC data via Kaggle.
+    See the <a href="dashboard.html">interactive dashboard</a> to explore the raw
+    player-match data yourself.
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>

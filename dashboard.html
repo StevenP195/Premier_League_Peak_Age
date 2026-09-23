@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard &mdash; When Do Premier League Players Peak?</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div class="wrap dashboard-header">
+  <h1>Premier League Player Explorer</h1>
+  <p>Filter 149,637 player-match appearances (2012/13&ndash;2025/26) and see the numbers update live. <a href="index.html">&larr; Back to the report</a></p>
+</div>
+
+<div class="controls-bar">
+  <div class="wrap" style="max-width:1100px">
+    <div class="controls-grid">
+      <div class="control">
+        <label for="f-season">Season</label>
+        <select id="f-season"></select>
+      </div>
+      <div class="control">
+        <label for="f-club">Club</label>
+        <select id="f-club"></select>
+      </div>
+      <div class="control">
+        <label for="f-position">Position</label>
+        <select id="f-position"></select>
+      </div>
+      <div class="control">
+        <label for="f-age">Age group</label>
+        <select id="f-age"></select>
+      </div>
+      <div class="control">
+        <label>&nbsp;</label>
+        <button class="reset" id="reset-btn">Reset filters</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="dashboard-main">
+  <div class="loading" id="loading">Loading player-match data&hellip;</div>
+
+  <div id="dashboard-body" style="display:none">
+    <div class="summary-row">
+      <div class="stat-tile">
+        <div class="value" id="s-appearances">&mdash;</div>
+        <div class="label">Appearances in view</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="s-players">&mdash;</div>
+        <div class="label">Unique players in view</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="s-goals">&mdash;</div>
+        <div class="label">Total goals in view</div>
+      </div>
+      <div class="stat-tile">
+        <div class="value" id="s-gi90">&mdash;</div>
+        <div class="label">Goal involvements per 90 (rate)</div>
+      </div>
+    </div>
+
+    <div class="chart-panels">
+      <div class="chart-card" id="panel1-card">
+        <div class="panel-controls">
+          <select id="panel1-breakdown"></select>
+          <select id="panel1-measure"></select>
+        </div>
+        <canvas id="panel1-canvas"></canvas>
+      </div>
+      <div class="chart-card" id="panel2-card">
+        <div class="panel-controls">
+          <select id="panel2-breakdown"></select>
+          <select id="panel2-measure"></select>
+        </div>
+        <canvas id="panel2-canvas"></canvas>
+      </div>
+      <div class="chart-card" id="panel3-card">
+        <div class="panel-controls">
+          <select id="panel3-breakdown"></select>
+          <select id="panel3-measure"></select>
+        </div>
+        <canvas id="panel3-canvas"></canvas>
+      </div>
+      <div class="chart-card" id="panel4-card">
+        <div class="panel-controls">
+          <select id="panel4-breakdown"></select>
+          <select id="panel4-measure"></select>
+        </div>
+        <canvas id="panel4-canvas"></canvas>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.1rem">Numbers behind panel 1's view</h2>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead id="table-head"></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
