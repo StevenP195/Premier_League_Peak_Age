@@ -1,8 +1,8 @@
 const POSITION_COLOR = {
-  Goalkeeper: "--series-1",
-  Defender: "--series-2",
-  Midfield: "--series-3",
-  Attack: "--series-4",
+  Goalkeeper: "--pos-gk",
+  Defender: "--pos-df",
+  Midfield: "--pos-mf",
+  Attack: "--pos-fw",
 };
 
 const AGE_BUCKETS = [

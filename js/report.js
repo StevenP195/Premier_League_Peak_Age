@@ -1,12 +1,42 @@
 const POSITION_COLOR = {
-  Goalkeeper: "--series-1",
-  Defender: "--series-2",
-  Midfield: "--series-3",
-  Attack: "--series-4",
+  Goalkeeper: "--pos-gk",
+  Defender: "--pos-df",
+  Midfield: "--pos-mf",
+  Attack: "--pos-fw",
 };
 
 function cssVar(name) {
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+function hexToRgba(hex, alpha) {
+  const c = hex.replace("#", "");
+  const r = parseInt(c.substring(0, 2), 16);
+  const g = parseInt(c.substring(2, 4), 16);
+  const b = parseInt(c.substring(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function plLineGradient(context, alpha) {
+  const { chart } = context;
+  const { ctx, chartArea } = chart;
+  if (!chartArea) return null;
+  const start = cssVar("--pl-gradient-start");
+  const end = cssVar("--pl-gradient-end");
+  const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+  gradient.addColorStop(0, alpha != null ? hexToRgba(start, alpha) : start);
+  gradient.addColorStop(1, alpha != null ? hexToRgba(end, alpha) : end);
+  return gradient;
+}
+
+function plBarGradient(context) {
+  const { chart } = context;
+  const { ctx, chartArea } = chart;
+  if (!chartArea) return null;
+  const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+  gradient.addColorStop(0, cssVar("--pl-gradient-start"));
+  gradient.addColorStop(1, cssVar("--pl-gradient-end"));
+  return gradient;
 }
 
 function baseOptions(yLabel) {
@@ -43,12 +73,13 @@ function baseOptions(yLabel) {
   };
 }
 
-function lineDataset(rows, color, label) {
+function lineDataset(rows, color, label, fillAlpha) {
   return {
     label,
     data: rows.map((r) => ({ x: r.age, y: r.value })),
     borderColor: color,
-    backgroundColor: color,
+    backgroundColor: fillAlpha != null ? hexToRgba(color, fillAlpha) : color,
+    fill: fillAlpha != null,
     borderWidth: 2,
     pointRadius: 2,
     tension: 0.25,
@@ -58,7 +89,7 @@ function lineDataset(rows, color, label) {
 function renderMultiLine(canvasId, seriesByGroup, yLabel) {
   const ctx = document.getElementById(canvasId);
   const datasets = Object.entries(seriesByGroup).map(([group, rows]) =>
-    lineDataset(rows, cssVar(POSITION_COLOR[group] || "--series-1"), group)
+    lineDataset(rows, cssVar(POSITION_COLOR[group] || "--pl-gradient-end"), group, 0.08)
   );
   new Chart(ctx, {
     type: "line",
@@ -67,16 +98,29 @@ function renderMultiLine(canvasId, seriesByGroup, yLabel) {
   });
 }
 
-function renderSingleLine(canvasId, rows, yLabel, colorVar = "--series-1") {
+function renderSingleLine(canvasId, rows, yLabel) {
   const ctx = document.getElementById(canvasId);
   new Chart(ctx, {
     type: "line",
-    data: { datasets: [lineDataset(rows, cssVar(colorVar), yLabel)] },
+    data: {
+      datasets: [
+        {
+          label: yLabel,
+          data: rows.map((r) => ({ x: r.age, y: r.value })),
+          borderColor: (context) => plLineGradient(context),
+          backgroundColor: (context) => plLineGradient(context, 0.18),
+          fill: true,
+          borderWidth: 2.5,
+          pointRadius: 2,
+          tension: 0.25,
+        },
+      ],
+    },
     options: baseOptions(yLabel),
   });
 }
 
-function renderBar(canvasId, rows, yLabel, colorVar = "--series-1") {
+function renderBar(canvasId, rows, yLabel) {
   const ctx = document.getElementById(canvasId);
   new Chart(ctx, {
     type: "bar",
@@ -86,7 +130,7 @@ function renderBar(canvasId, rows, yLabel, colorVar = "--series-1") {
         {
           label: yLabel,
           data: rows.map((r) => r.value),
-          backgroundColor: cssVar(colorVar),
+          backgroundColor: (context) => plBarGradient(context),
           borderRadius: 4,
         },
       ],
@@ -111,7 +155,6 @@ function groupByField(rows, field) {
 
 function renderTopValueChart(canvasId, rows) {
   const ctx = document.getElementById(canvasId);
-  const color = cssVar("--pl-purple");
   new Chart(ctx, {
     type: "bar",
     data: {
@@ -120,7 +163,7 @@ function renderTopValueChart(canvasId, rows) {
         {
           label: "Market value while at a Premier League club",
           data: rows.map((r) => r.value),
-          backgroundColor: color,
+          backgroundColor: (context) => plBarGradient(context),
           borderRadius: 4,
         },
       ],
@@ -192,11 +235,11 @@ async function main() {
     groupByField(findings.defensive_by_age, "group"),
     "Tackles won + interceptions per 90"
   );
-  renderSingleLine("chart-aerial", findings.aerial_by_age, "Aerial duels won %", "--series-2");
-  renderSingleLine("chart-gk-save", findings.gk_save_by_age, "Save %", "--series-1");
-  renderSingleLine("chart-market-value", findings.market_value_by_age, "Average market value (€)", "--series-3");
-  renderSingleLine("chart-cards", findings.cards_by_age, "Yellow + red cards per 90", "--series-2");
-  renderBar("chart-minutes-share", findings.minutes_share_by_age, "% of all Premier League minutes", "--series-4");
+  renderSingleLine("chart-aerial", findings.aerial_by_age, "Aerial duels won %");
+  renderSingleLine("chart-gk-save", findings.gk_save_by_age, "Save %");
+  renderSingleLine("chart-market-value", findings.market_value_by_age, "Average market value (€)");
+  renderSingleLine("chart-cards", findings.cards_by_age, "Yellow + red cards per 90");
+  renderBar("chart-minutes-share", findings.minutes_share_by_age, "% of all Premier League minutes");
   renderTopValueChart("chart-top-value", findings.top_value_by_age);
   renderTopValueTable(findings.top_value_by_age);
 }

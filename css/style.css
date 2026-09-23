@@ -15,6 +15,13 @@
   --good: #0ca30c;
   --pl-purple: #3d195b;
   --pl-green: #00ff85;
+  --pl-gradient-start: #c6fd20;
+  --pl-gradient-end: #00fe87;
+  --pl-gradient: linear-gradient(135deg, var(--pl-gradient-start), var(--pl-gradient-end));
+  --pos-gk: #c6fd20;
+  --pos-df: #84fd42;
+  --pos-mf: #42fe65;
+  --pos-fw: #00fe87;
   --accent-primary: var(--pl-purple);
   --accent-secondary: var(--pl-green);
   --accent-text-on-primary: #ffffff;
@@ -41,7 +48,7 @@ body {
 
 .brand-strip {
   height: 5px;
-  background: linear-gradient(90deg, var(--pl-purple), var(--pl-green));
+  background: linear-gradient(90deg, var(--pl-gradient-start), var(--pl-gradient-end));
 }
 
 header.site-header {
