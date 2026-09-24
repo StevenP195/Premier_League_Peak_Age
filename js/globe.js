@@ -99,8 +99,7 @@ async function initGlobe() {
     });
 
   world.pointOfView({ lat: 20, lng: -10, altitude: 2.2 }, 0);
-  world.controls().autoRotate = true;
-  world.controls().autoRotateSpeed = 0.6;
+  world.controls().autoRotate = false;
 
   measureSelect.addEventListener("change", () => {
     world.polygonCapColor((feat) => colorFor(feat, measureSelect.value));

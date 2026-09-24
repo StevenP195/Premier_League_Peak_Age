@@ -58,9 +58,9 @@ header.site-header {
 
 .pl-badge {
   position: fixed;
-  top: 17px;
+  top: 14px;
   right: 20px;
-  width: 84px;
+  width: 118px;
   height: auto;
   z-index: 20;
   filter: drop-shadow(0 2px 6px rgba(11, 11, 11, 0.18));
@@ -68,15 +68,22 @@ header.site-header {
 
 @media (max-width: 640px) {
   .pl-badge {
-    width: 52px;
-    top: 13px;
+    width: 70px;
+    top: 10px;
     right: 12px;
   }
 }
 
 header.site-header h1 {
-  font-size: clamp(1.7rem, 4vw, 2.4rem);
-  margin: 0 0 8px;
+  font-size: clamp(2.1rem, 5.2vw, 3.1rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.08;
+  margin: 0 0 10px;
+  background: linear-gradient(120deg, var(--pl-purple), var(--pl-gradient-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .byline {
@@ -138,6 +145,10 @@ nav.site-nav a.current {
   padding: 18px 16px;
 }
 
+.finding .stat-tile {
+  background: var(--page);
+}
+
 .stat-tile .value {
   font-size: 1.8rem;
   font-weight: 700;
@@ -152,17 +163,20 @@ nav.site-nav a.current {
 }
 
 section.finding {
-  padding: 40px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-section.finding:last-of-type {
-  border-bottom: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 28px 32px;
+  margin: 28px 0;
+  box-shadow: 0 1px 3px rgba(11, 11, 11, 0.06);
 }
 
 section.finding h2 {
-  font-size: 1.35rem;
-  margin: 0 0 6px;
+  font-size: 1.45rem;
+  margin: 0 0 10px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--pl-gradient-end);
+  display: inline-block;
 }
 
 section.finding .kicker {
@@ -179,7 +193,7 @@ section.finding p {
 }
 
 .chart-card {
-  background: var(--surface);
+  background: var(--page);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 16px 16px 8px;
@@ -338,6 +352,10 @@ section.finding p {
   justify-content: center;
   padding: 8px;
   overflow: hidden;
+  background: var(--page);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-top: 18px;
 }
 
 #globe-viz {
