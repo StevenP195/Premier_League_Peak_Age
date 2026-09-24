@@ -49,66 +49,6 @@
     </div>
   </section>
 
-  <section class="finding value-lab">
-    <p class="kicker">Before the age question &middot; A question to start with</p>
-    <h2>Does playing for a Top 6 club inflate a player's price?</h2>
-    <p>
-      Before this report gets into age, here's a simpler question: is a
-      player's market value about ability, or about which badge they wear?
-      Each dot below is a Premier League player's peak-rated FIFA season
-      while at a Premier League club &mdash; skill attributes (pace,
-      shooting, passing, dribbling, defending, physicality) straight from
-      the game, not this report's own stats. The dashed line is this data
-      set's own fitted baseline: what a player with that rating and age
-      typically sells for. Dots below the line are priced under what their
-      rating implies; dots above are priced over it. Color shows Top 6
-      (Arsenal, Chelsea, Liverpool, Manchester City, Manchester United,
-      Tottenham) versus everyone else.
-    </p>
-    <p>
-      The honest answer, once rating and age are both controlled for:
-      Top 6 players average <strong>3.8% below</strong> their rating-implied
-      price, while the rest of the league averages <strong>8.3%
-      above</strong> it. Top 6 squads are deep with highly-rated players who
-      never quite play enough to justify their attributes; the league's real
-      price premium instead goes to non-Top-6 players who keep producing
-      more than a stats-card would predict &mdash; proven output the market
-      has learned to pay for, that pure attributes miss. Click any dot (or a
-      name below) for the full player card.
-    </p>
-    <div class="xi-controls">
-      <div class="control">
-        <label for="value-position-filter">Filter by position</label>
-        <select id="value-position-filter">
-          <option value="">All positions</option>
-        </select>
-      </div>
-    </div>
-    <div class="chart-card">
-      <canvas id="chart-value-scatter"></canvas>
-      <div class="legend">
-        <span class="legend-item"><span class="swatch" style="background:var(--pl-purple)"></span>Top 6</span>
-        <span class="legend-item"><span class="swatch" style="background:var(--pl-gradient-end)"></span>Rest of the league</span>
-      </div>
-    </div>
-
-    <div class="value-lab-body">
-      <div class="value-lab-leaderboards">
-        <div class="leaderboard-block">
-          <h3>Most undervalued (by rating)</h3>
-          <ul class="leaderboard-list" id="leaderboard-undervalued"></ul>
-        </div>
-        <div class="leaderboard-block">
-          <h3>Biggest premium over rating</h3>
-          <ul class="leaderboard-list" id="leaderboard-overvalued"></ul>
-        </div>
-      </div>
-      <div class="player-card-slot" id="player-card-slot">
-        <p class="player-card-placeholder">Click a dot on the chart, or a name to the left, to see their card.</p>
-      </div>
-    </div>
-  </section>
-
   <section class="finding">
     <p class="kicker">Finding 1 &middot; Attacking output</p>
     <h2>Goal involvement peaks in a player's early 20s &mdash; unless they're a forward</h2>
@@ -474,7 +414,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="js/club-colors.js"></script>
-<script src="js/value-lab.js"></script>
 <script src="js/report.js"></script>
 <script src="js/squad-xi.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl@2"></script>
