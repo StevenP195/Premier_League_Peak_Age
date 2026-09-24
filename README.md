@@ -10,11 +10,13 @@ data (all via Kaggle).
 ## Files
 
 ### Pages
-- `index.html` &mdash; the report: a title/summary, four headline numbers,
-  ten data-backed findings (charts, the interactive Player XI, and an
-  interactive globe), a conclusion tying the findings back to the original
-  question, and a closing section on where the data comes from and how every
-  number is computed.
+- `index.html` &mdash; the report: a full-viewport 3D stadium hero (a
+  procedurally-built stadium bowl and pitch in Three.js; scrolling flies the
+  camera down from an aerial view to pitch level as the section fades into
+  the page), a title/summary, four headline numbers, ten data-backed
+  findings (charts, the interactive Player XI, and an interactive globe), a
+  conclusion tying the findings back to the original question, and a closing
+  section on where the data comes from and how every number is computed.
 - `dashboard.html` &mdash; the interactive dashboard: four filters (season,
   club, position, age group), four summary numbers, four charts each with a
   measure switch and a breakdown switch, a tabbed table showing the numbers
@@ -28,6 +30,10 @@ data (all via Kaggle).
   controls.
 
 ### Scripts (loaded by the browser)
+- `js/hero.js` — builds and animates the full-viewport 3D stadium hero
+  (procedural pitch/stand/floodlight geometry, scroll-linked camera descent
+  and fade). ES module with its own Three.js instance, independent of
+  `js/globe.js`; no external data or 3D model files.
 - `js/club-colors.js` &mdash; shared lookup tables (club &rarr; primary/secondary
   color, club &rarr; crest filename) used by both the dashboard and the report's
   Player XI.
