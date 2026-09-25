@@ -33,7 +33,7 @@
   height: 100vh;
   width: 100%;
   overflow: hidden;
-  background: linear-gradient(180deg, #05040a, #0d0a1a 55%, #140f22);
+  background: linear-gradient(180deg, #a9cdea 0%, #f3dfae 55%, #dba765 100%);
 }
 
 #hero-canvas {
@@ -50,11 +50,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  padding-bottom: 48px;
   color: #ffffff;
   pointer-events: none;
   transition: opacity 0.15s linear;
+  padding: 0 24px 48px;
+}
+
+.hero-quote {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  max-width: 780px;
+  font-size: clamp(1.3rem, 3.2vw, 2.1rem);
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-shadow: 0 3px 14px rgba(0, 0, 0, 0.5);
+}
+
+.hero-quote cite {
+  display: block;
+  margin-top: 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.03em;
+  opacity: 0.85;
 }
 
 .hero-scroll-hint {
