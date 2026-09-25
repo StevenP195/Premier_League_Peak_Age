@@ -38,23 +38,39 @@ function makePitchTexture() {
 function makeCrowdTexture() {
   const c = document.createElement("canvas");
   c.width = 256;
-  c.height = 160;
+  c.height = 176;
   const ctx = c.getContext("2d");
-  ctx.fillStyle = "#3a3040";
+  ctx.fillStyle = "#a3111f";
   ctx.fillRect(0, 0, c.width, c.height);
-  const palette = ["#c81e2c", "#8c1420", "#f2f2f2", "#d8d8d8", "#1b1b1b", "#2b2f6b", "#e8c26a", "#5a4030"];
-  const rows = 20;
-  const rowH = c.height / rows;
-  for (let r = 0; r < rows; r++) {
-    const y = r * rowH;
-    for (let x = 0; x < c.width; x += 3) {
-      if (Math.random() < 0.88) {
-        ctx.fillStyle = palette[(Math.random() * palette.length) | 0];
-        const jitter = Math.random() * 1.5;
-        ctx.fillRect(x + jitter, y + Math.random() * (rowH - 2), 2.2, rowH * 0.62);
+
+  const seatPalette = ["#c8102e", "#a3111f", "#8a0e1a", "#d81e35"];
+  const crowdPalette = ["#c8102e", "#a3111f", "#8a0e1a", "#f2f2f2", "#1b1b1b", "#d8d8d8"];
+
+  function paintTier(y0, y1, packed) {
+    const rows = 12;
+    const rowH = (y1 - y0) / rows;
+    const palette = packed ? crowdPalette : seatPalette;
+    for (let r = 0; r < rows; r++) {
+      const y = y0 + r * rowH;
+      for (let x = 0; x < c.width; x += 3) {
+        if (Math.random() < 0.9) {
+          ctx.fillStyle = palette[(Math.random() * palette.length) | 0];
+          const jitter = Math.random() * 1.4;
+          ctx.fillRect(x + jitter, y + Math.random() * (rowH - 2), 2.1, rowH * 0.6);
+        }
       }
     }
   }
+
+  paintTier(4, c.height * 0.52, true);
+  paintTier(c.height * 0.6, c.height - 6, true);
+
+  ctx.fillStyle = "#cfd2d8";
+  ctx.fillRect(0, c.height * 0.52, c.width, c.height * 0.08);
+  ctx.fillStyle = "#9aa0aa";
+  ctx.fillRect(0, c.height * 0.52, c.width, 2);
+  ctx.fillRect(0, c.height * 0.6 - 2, c.width, 2);
+
   return new THREE.CanvasTexture(c);
 }
 
@@ -121,6 +137,39 @@ function buildFloodlight() {
   return group;
 }
 
+function buildWembleyArch() {
+  const group = new THREE.Group();
+  const archMat = new THREE.MeshStandardMaterial({ color: 0xfbfbfd, roughness: 0.25, metalness: 0.35 });
+
+  const leg1 = new THREE.Vector3(-46, 6, -84);
+  const apex = new THREE.Vector3(0, 86, -98);
+  const leg2 = new THREE.Vector3(46, 6, -80);
+  const mid1 = new THREE.Vector3(-34, 56, -102);
+  const mid2 = new THREE.Vector3(34, 62, -94);
+
+  const curve = new THREE.CatmullRomCurve3([leg1, mid1, apex, mid2, leg2]);
+  const archMesh = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 48, 2.6, 10, false),
+    archMat
+  );
+  group.add(archMesh);
+
+  const cableMat = new THREE.MeshStandardMaterial({ color: 0xd7dae2, roughness: 0.5, metalness: 0.4 });
+  for (let i = 1; i < 10; i++) {
+    const t = i / 10;
+    const p = curve.getPoint(t);
+    const base = new THREE.Vector3(p.x * 0.65, 27, -76);
+    const dir = new THREE.Vector3().subVectors(p, base);
+    const len = dir.length();
+    const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.14, len, 6), cableMat);
+    cable.position.copy(p).add(base).multiplyScalar(0.5);
+    cable.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+    group.add(cable);
+  }
+
+  return group;
+}
+
 function easeInOut(t) {
   return t * t * (3 - 2 * t);
 }
@@ -174,6 +223,8 @@ async function initHero() {
     fl.position.set(Math.sin(angle) * (RING_RADIUS + 6), 0, Math.cos(angle) * (RING_RADIUS + 6));
     scene.add(fl);
   });
+
+  scene.add(buildWembleyArch());
 
   const startPos = new THREE.Vector3(0, 95, 155);
   const endPos = new THREE.Vector3(0, 2.4, 26);
