@@ -30,10 +30,15 @@ data (all via Kaggle).
   controls.
 
 ### Scripts (loaded by the browser)
-- `js/hero.js` — builds and animates the full-viewport 3D stadium hero
-  (procedural pitch/stand/floodlight geometry, scroll-linked camera descent
-  and fade). ES module with its own Three.js instance, independent of
-  `js/globe.js`; no external data or 3D model files.
+- `js/hero.js` — builds and animates the full-viewport 3D Wembley-style
+  hero: procedural pitch/goals/two-team low-poly players, a continuous
+  red-and-white stand bowl with instanced crowd particles, the Wembley
+  arch, floodlights, and a stone exterior plaza with scattered fans in
+  Manchester City/Arsenal colors. GSAP ScrollTrigger pins the view and
+  drives a three-phase camera path (aerial → into the stands →
+  pitch-level) as the section scrolls. ES module with its own Three.js
+  instance, independent of `js/globe.js`; no external data or 3D model
+  files.
 - `js/club-colors.js` &mdash; shared lookup tables (club &rarr; primary/secondary
   color, club &rarr; crest filename) used by both the dashboard and the report's
   Player XI.

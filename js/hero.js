@@ -74,6 +74,33 @@ function makeCrowdTexture() {
   return new THREE.CanvasTexture(c);
 }
 
+function makeStoneTexture() {
+  const c = document.createElement("canvas");
+  c.width = 512;
+  c.height = 512;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#b7b3ab";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.strokeStyle = "rgba(110,106,98,0.55)";
+  ctx.lineWidth = 2;
+  const grid = 34;
+  for (let i = 0; i <= c.width; i += grid) {
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i, c.height);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, i);
+    ctx.lineTo(c.width, i);
+    ctx.stroke();
+  }
+  for (let i = 0; i < 3000; i++) {
+    ctx.fillStyle = `rgba(70,65,58,${Math.random() * 0.12})`;
+    ctx.fillRect(Math.random() * c.width, Math.random() * c.height, 2, 2);
+  }
+  return new THREE.CanvasTexture(c);
+}
+
 function buildStandSegment(width, depth, height, crowdTexture) {
   const group = new THREE.Group();
   const texture = crowdTexture.clone();
@@ -113,6 +140,68 @@ function buildStandSegment(width, depth, height, crowdTexture) {
   return group;
 }
 
+function buildCrowdParticles(ringRadius, count) {
+  const geo = new THREE.BoxGeometry(0.55, 0.7, 0.4);
+  const mat = new THREE.MeshStandardMaterial({ roughness: 0.9 });
+  const mesh = new THREE.InstancedMesh(geo, mat, count);
+  const dummy = new THREE.Object3D();
+  const palette = [0xc8102e, 0xa3111f, 0xffffff, 0x1b1b1b, 0xd8d8d8, 0xd81e35];
+  const color = new THREE.Color();
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const lowerTier = Math.random() < 0.55;
+    const y = lowerTier ? 3 + Math.random() * 10 : 18 + Math.random() * 5.5;
+    const radius = ringRadius - 6 + Math.random() * 11;
+    dummy.position.set(Math.sin(angle) * radius, y, Math.cos(angle) * radius);
+    dummy.rotation.y = angle;
+    dummy.updateMatrix();
+    mesh.setMatrixAt(i, dummy.matrix);
+    color.set(palette[(Math.random() * palette.length) | 0]);
+    mesh.setColorAt(i, color);
+  }
+  mesh.instanceColor.needsUpdate = true;
+  return mesh;
+}
+
+function buildExteriorFans(count) {
+  const geo = new THREE.CapsuleGeometry(0.35, 1.1, 3, 6);
+  const mat = new THREE.MeshStandardMaterial({ roughness: 0.85 });
+  const mesh = new THREE.InstancedMesh(geo, mat, count);
+  const dummy = new THREE.Object3D();
+  const cityColor = 0x6cabdd;
+  const arsenalColor = 0xef0107;
+  const neutral = [0xffffff, 0x2a2a2a, 0x9aa0aa];
+  const color = new THREE.Color();
+  for (let i = 0; i < count; i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const radius = 98 + Math.random() * 46;
+    dummy.position.set(Math.sin(angle) * radius, 0.9, Math.cos(angle) * radius);
+    dummy.rotation.y = angle + Math.PI;
+    dummy.updateMatrix();
+    mesh.setMatrixAt(i, dummy.matrix);
+    const roll = Math.random();
+    if (roll < 0.4) color.set(cityColor);
+    else if (roll < 0.8) color.set(arsenalColor);
+    else color.set(neutral[(Math.random() * neutral.length) | 0]);
+    mesh.setColorAt(i, color);
+  }
+  mesh.instanceColor.needsUpdate = true;
+  return mesh;
+}
+
+function buildStonePlaza() {
+  const texture = makeStoneTexture();
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(22, 22);
+  const plaza = new THREE.Mesh(
+    new THREE.CircleGeometry(230, 56),
+    new THREE.MeshStandardMaterial({ map: texture, roughness: 1 })
+  );
+  plaza.rotation.x = -Math.PI / 2;
+  plaza.position.y = -0.08;
+  return plaza;
+}
+
 function buildFloodlight() {
   const group = new THREE.Group();
   const pole = new THREE.Mesh(
@@ -148,10 +237,7 @@ function buildWembleyArch() {
   const mid2 = new THREE.Vector3(34, 62, -94);
 
   const curve = new THREE.CatmullRomCurve3([leg1, mid1, apex, mid2, leg2]);
-  const archMesh = new THREE.Mesh(
-    new THREE.TubeGeometry(curve, 48, 2.6, 10, false),
-    archMat
-  );
+  const archMesh = new THREE.Mesh(new THREE.TubeGeometry(curve, 48, 2.6, 10, false), archMat);
   group.add(archMesh);
 
   const cableMat = new THREE.MeshStandardMaterial({ color: 0xd7dae2, roughness: 0.5, metalness: 0.4 });
@@ -170,24 +256,100 @@ function buildWembleyArch() {
   return group;
 }
 
+function buildGoal(zPos) {
+  const group = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.4 });
+  const postGeo = new THREE.CylinderGeometry(0.06, 0.06, 2.44, 8);
+  const postL = new THREE.Mesh(postGeo, mat);
+  postL.position.set(-3.66, 1.22, zPos);
+  group.add(postL);
+  const postR = new THREE.Mesh(postGeo, mat);
+  postR.position.set(3.66, 1.22, zPos);
+  group.add(postR);
+  const cross = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 7.32, 8), mat);
+  cross.rotation.z = Math.PI / 2;
+  cross.position.set(0, 2.44, zPos);
+  group.add(cross);
+  const net = new THREE.Mesh(
+    new THREE.PlaneGeometry(7.32, 2.44),
+    new THREE.MeshStandardMaterial({ color: 0xffffff, transparent: true, opacity: 0.18, side: THREE.DoubleSide })
+  );
+  net.position.set(0, 1.22, zPos + (zPos > 0 ? 1.1 : -1.1));
+  group.add(net);
+  return group;
+}
+
+function buildPlayerFigure(colorHex) {
+  const group = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color: colorHex, roughness: 0.6 });
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 1.05, 4, 8), mat);
+  body.position.y = 0.95;
+  group.add(body);
+  const head = new THREE.Mesh(
+    new THREE.SphereGeometry(0.24, 10, 10),
+    new THREE.MeshStandardMaterial({ color: 0xe8c39e, roughness: 0.7 })
+  );
+  head.position.y = 1.75;
+  group.add(head);
+  return group;
+}
+
+function buildTeams() {
+  const group = new THREE.Group();
+  const CITY = 0x6cabdd;
+  const ARSENAL = 0xef0107;
+
+  const cityFormation = [
+    [0, -30], [-12, -20], [-4, -20], [4, -20], [12, -20],
+    [-10, -8], [0, -6], [10, -8],
+    [-9, 6], [0, 4], [9, 6],
+  ];
+  const arsenalFormation = [
+    [0, 30], [-12, 20], [-4, 20], [4, 20], [12, 20],
+    [-10, 8], [0, 6], [10, 8],
+    [-9, -6], [0, -4], [9, -6],
+  ];
+
+  cityFormation.forEach(([x, z]) => {
+    const p = buildPlayerFigure(CITY);
+    p.position.set(x, 0, z);
+    p.rotation.y = Math.PI;
+    group.add(p);
+  });
+  arsenalFormation.forEach(([x, z]) => {
+    const p = buildPlayerFigure(ARSENAL);
+    p.position.set(x, 0, z);
+    group.add(p);
+  });
+
+  return group;
+}
+
 function easeInOut(t) {
   return t * t * (3 - 2 * t);
 }
 
+function lerpCam(camera, a, b, t) {
+  camera.position.lerpVectors(a.pos, b.pos, t);
+  const look = new THREE.Vector3().lerpVectors(a.look, b.look, t);
+  camera.lookAt(look);
+}
+
 async function initHero() {
   const heroEl = document.getElementById("hero-3d");
+  const pinEl = document.getElementById("hero-pin");
   const overlayEl = document.querySelector(".hero-overlay");
   const canvas = document.getElementById("hero-canvas");
-  if (!heroEl || !canvas) return;
+  if (!heroEl || !pinEl || !canvas) return;
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0xbcd4e8, 0.0032);
+  scene.fog = new THREE.FogExp2(0xbcd4e8, 0.0021);
 
-  const camera = new THREE.PerspectiveCamera(55, heroEl.clientWidth / heroEl.clientHeight, 0.1, 600);
+  const camera = new THREE.PerspectiveCamera(55, pinEl.clientWidth / pinEl.clientHeight, 0.1, 700);
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(heroEl.clientWidth, heroEl.clientHeight);
+  renderer.setSize(pinEl.clientWidth, pinEl.clientHeight);
 
   scene.add(new THREE.AmbientLight(0xfff2d8, 0.85));
   const sun = new THREE.DirectionalLight(0xfff0cf, 1.05);
@@ -197,12 +359,18 @@ async function initHero() {
   fill.position.set(-50, 40, -60);
   scene.add(fill);
 
+  scene.add(buildStonePlaza());
+  scene.add(buildExteriorFans(260));
+
   const pitch = new THREE.Mesh(
     new THREE.PlaneGeometry(105, 68),
     new THREE.MeshStandardMaterial({ map: makePitchTexture(), roughness: 0.9 })
   );
   pitch.rotation.x = -Math.PI / 2;
   scene.add(pitch);
+  scene.add(buildGoal(-34));
+  scene.add(buildGoal(34));
+  scene.add(buildTeams());
 
   const crowdTexture = makeCrowdTexture();
   const RING_RADIUS = 82;
@@ -216,6 +384,7 @@ async function initHero() {
     seg.rotation.y = angle;
     scene.add(seg);
   }
+  scene.add(buildCrowdParticles(RING_RADIUS, 4000));
 
   const cornerAngles = [Math.PI / 4, (3 * Math.PI) / 4, (5 * Math.PI) / 4, (7 * Math.PI) / 4];
   cornerAngles.forEach((angle) => {
@@ -226,38 +395,48 @@ async function initHero() {
 
   scene.add(buildWembleyArch());
 
-  const startPos = new THREE.Vector3(0, 95, 155);
-  const endPos = new THREE.Vector3(0, 2.4, 26);
-  const startLook = new THREE.Vector3(0, 0, 0);
-  const endLook = new THREE.Vector3(0, 3, -20);
+  const phase1 = { pos: new THREE.Vector3(0, 95, 155), look: new THREE.Vector3(0, 10, -10) };
+  const phase2 = { pos: new THREE.Vector3(58, 9, 42), look: new THREE.Vector3(0, 6, -10) };
+  const phase3 = { pos: new THREE.Vector3(26, 2.3, 34), look: new THREE.Vector3(0, 1.6, 0) };
 
-  function getProgress() {
-    const heroHeight = heroEl.offsetHeight || window.innerHeight;
-    return Math.min(Math.max(window.scrollY / heroHeight, 0), 1);
+  const state = { progress: 0 };
+
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.create({
+    trigger: "#hero-3d",
+    start: "top top",
+    end: "bottom top",
+    scrub: 0.6,
+    pin: "#hero-pin",
+    onUpdate: (self) => {
+      state.progress = self.progress;
+    },
+  });
+
+  function updateScene() {
+    const p = state.progress;
+    const phaseT = p * 2;
+    if (phaseT <= 1) {
+      lerpCam(camera, phase1, phase2, easeInOut(phaseT));
+    } else {
+      lerpCam(camera, phase2, phase3, easeInOut(phaseT - 1));
+    }
+
+    if (overlayEl) overlayEl.style.opacity = Math.max(0, 1 - p * 7);
   }
 
   function animate() {
     requestAnimationFrame(animate);
-    const progress = getProgress();
-
-    if (progress < 1.05) {
-      const t = easeInOut(progress);
-      camera.position.lerpVectors(startPos, endPos, t);
-      const look = new THREE.Vector3().lerpVectors(startLook, endLook, t);
-      camera.lookAt(look);
-
-      if (overlayEl) overlayEl.style.opacity = Math.max(0, 1 - progress * 2.4);
-      heroEl.style.opacity = progress <= 0.6 ? 1 : Math.max(0, 1 - (progress - 0.6) / 0.4);
-
-      renderer.render(scene, camera);
-    }
+    updateScene();
+    renderer.render(scene, camera);
   }
   animate();
 
   window.addEventListener("resize", () => {
-    camera.aspect = heroEl.clientWidth / heroEl.clientHeight;
+    camera.aspect = pinEl.clientWidth / pinEl.clientHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(heroEl.clientWidth, heroEl.clientHeight);
+    renderer.setSize(pinEl.clientWidth, pinEl.clientHeight);
+    ScrollTrigger.refresh();
   });
 }
 

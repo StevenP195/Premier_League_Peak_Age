@@ -8,14 +8,16 @@
 </head>
 <body>
 <section id="hero-3d">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-overlay">
-    <blockquote class="hero-quote">
-      “Some people think football is a matter of life and death. I assure
-      you, it's much more serious than that.”
-      <cite>&mdash; Bill Shankly</cite>
-    </blockquote>
-    <div class="hero-scroll-hint">Scroll <span>↓</span></div>
+  <div id="hero-pin">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-overlay">
+      <blockquote class="hero-quote">
+        “Some people think football is a matter of life and death. I assure
+        you, it's much more serious than that.”
+        <cite>&mdash; Bill Shankly</cite>
+      </blockquote>
+      <div class="hero-scroll-hint">Scroll <span>↓</span></div>
+    </div>
   </div>
 </section>
 <div class="brand-strip"></div>
@@ -423,6 +425,8 @@
   </footer>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script type="module" src="js/hero.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="js/club-colors.js"></script>

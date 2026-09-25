@@ -30,6 +30,12 @@
 
 #hero-3d {
   position: relative;
+  height: 320vh;
+  width: 100%;
+}
+
+#hero-pin {
+  position: relative;
   height: 100vh;
   width: 100%;
   overflow: hidden;
