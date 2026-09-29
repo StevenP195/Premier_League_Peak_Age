@@ -49,7 +49,8 @@
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding theme-attack">
+    <span class="finding-number">01</span>
     <p class="kicker">Finding 1 &middot; Attacking output</p>
     <h2>Goal involvement peaks in a player's early 20s &mdash; unless they're a forward</h2>
     <p>
@@ -61,6 +62,7 @@
       expected &mdash; it's also why the rest of this report tracks keepers on
       shot-stopping instead of goals and assists.
     </p>
+    <p class="pull-quote">The late attacking peak shows who stays productive at the top level, not what happens to the average player as they age.</p>
     <p>
       Read the late peak for attackers and midfielders with one caveat: the Premier
       League only keeps its best older players on the pitch. A 34-year-old still starting
@@ -79,23 +81,28 @@
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding theme-mid">
+    <span class="finding-number">02</span>
     <p class="kicker">Finding 2 &middot; Passing</p>
     <h2>Passing accuracy peaks earlier than attacking output &mdash; around age 23</h2>
-    <p>
-      Pooling every outfield position with at least 450 minutes in a season and an FBref
-      match, pass completion rate peaks at age 23 (77.7%), a full decade before the
-      goal-involvement peak for attackers and midfielders. Passing is a more
-      technique-driven skill that top-flight players arrive with already refined; it
-      doesn't compound with the tactical experience and physical timing that late-career
-      creative and finishing numbers seem to reward.
-    </p>
-    <div class="chart-card">
-      <canvas id="chart-passing"></canvas>
+    <div class="finding-split">
+      <p>
+        Pooling every outfield position with at least 450 minutes in a season and an FBref
+        match, pass completion rate peaks at age 23 (77.7%), a full decade before the
+        goal-involvement peak for attackers and midfielders. Passing is a more
+        technique-driven skill that top-flight players arrive with already refined; it
+        doesn't compound with the tactical experience and physical timing that late-career
+        creative and finishing numbers seem to reward. Grouped into three-year age bands,
+        the peak band stands out clearly against every other stage of a career.
+      </p>
+      <div class="chart-card">
+        <canvas id="chart-passing"></canvas>
+      </div>
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding theme-defense">
+    <span class="finding-number">03</span>
     <p class="kicker">Finding 3 &middot; Defensive work-rate</p>
     <h2>Defenders and midfielders do their most defending at 20, not 30</h2>
     <p>
@@ -105,7 +112,8 @@
       Finding 1: young defensive players entering the league appear to compensate for
       inexperience with sheer defensive activity and pressing intensity, while the
       players who keep starting into their 30s do it with positioning rather than volume
-      of duels won.
+      of duels won. Grouped into three-year age bands, defenders and midfielders track
+      each other closely at every career stage.
     </p>
     <div class="chart-card">
       <canvas id="chart-defensive"></canvas>
@@ -116,22 +124,29 @@
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding theme-defense">
+    <span class="finding-number">04</span>
     <p class="kicker">Finding 4 &middot; Aerial ability</p>
     <h2>Aerial duel success keeps rising all the way to age 35</h2>
-    <p>
-      Of every metric in this report, aerial duel win rate has the latest peak: 61.8% at
-      age 35. Winning duels in the air rewards positioning, timing, and reading a cross
-      &mdash; skills built on experience rather than raw athleticism &mdash; and the
-      Premier League players still contesting headers at 35 are typically specialist
-      centre-backs whose whole game is built around exactly that skill.
-    </p>
-    <div class="chart-card">
-      <canvas id="chart-aerial"></canvas>
+    <div class="finding-split reverse">
+      <div class="chart-card">
+        <canvas id="chart-aerial"></canvas>
+      </div>
+      <div>
+        <p>
+          Of every metric in this report, aerial duel win rate has the latest peak: 61.8% at
+          age 35. Winning duels in the air rewards positioning, timing, and reading a cross
+          &mdash; skills built on experience rather than raw athleticism &mdash; and the
+          Premier League players still contesting headers at 35 are typically specialist
+          centre-backs whose whole game is built around exactly that skill.
+        </p>
+        <p class="pull-quote">Every dot here is a real age-bin average &mdash; the bigger the dot, the more player-seasons behind it.</p>
+      </div>
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding theme-keeper">
+    <span class="finding-number">05</span>
     <p class="kicker">Finding 5 &middot; Goalkeeping</p>
     <h2>Goalkeepers peak latest of all &mdash; shot-stopping tops out at 33</h2>
     <p>
@@ -140,14 +155,16 @@
       Finding 1's flat goal-involvement curve is completely uninformative on its own
       &mdash; shot-stopping is what actually separates a keeper's career arc, and it
       rewards the same experience-over-athleticism pattern seen in aerial duels and
-      defending positioning.
+      defending positioning. Each wedge below is a three-year age band, sized by save
+      percentage in that band.
     </p>
     <div class="chart-card">
       <canvas id="chart-gk-save"></canvas>
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding theme-value">
+    <span class="finding-number">06</span>
     <p class="kicker">Finding 6 &middot; Market value</p>
     <h2>Transfer market value peaks years before most on-pitch metrics do &mdash; at 26</h2>
     <p>
@@ -156,31 +173,41 @@
       accounts for the largest share of all Premier League minutes played (11.76% of
       total minutes) &mdash; clubs pay the most for, and give the most minutes to,
       players who are past their defensive peak (Finding 3) but still years from their
-      attacking, aerial, and goalkeeping peaks. The market is pricing potential and
-      reliability together, not any single peak metric in isolation.
+      attacking, aerial, and goalkeeping peaks.
     </p>
-    <div class="chart-card">
-      <canvas id="chart-market-value"></canvas>
+    <p class="pull-quote">The market is pricing potential and reliability together, not any single peak metric in isolation.</p>
+    <div class="callout-stat">
+      <div>
+        <div class="big-number" id="callout-value-number">26</div>
+        <div class="big-number-label">Age of peak average market value</div>
+      </div>
+      <div class="sparkline-wrap">
+        <canvas id="chart-market-value"></canvas>
+      </div>
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding theme-value">
+    <span class="finding-number">07</span>
     <p class="kicker">Finding 7 &middot; Discipline</p>
     <h2>The "reckless youngster" stereotype doesn't hold &mdash; cards peak at 30</h2>
-    <p>
-      Yellow and red cards per 90 minutes are lowest at age 36 (0.138 per 90) but actually
-      peak at age 30 (0.168 per 90), not in a player's early 20s as the stereotype of
-      hot-headed youth might suggest. Players in their late 20s and early 30s &mdash;
-      the same window where defensive positioning has replaced defensive volume
-      (Finding 3) &mdash; appear to pick up more cards, plausibly from using fouls
-      tactically to break up play rather than losing their composure.
-    </p>
-    <div class="chart-card">
-      <canvas id="chart-cards"></canvas>
+    <div class="finding-split">
+      <p>
+        Yellow and red cards per 90 minutes are lowest at age 36 (0.138 per 90) but actually
+        peak at age 30 (0.168 per 90), not in a player's early 20s as the stereotype of
+        hot-headed youth might suggest. Players in their late 20s and early 30s &mdash;
+        the same window where defensive positioning has replaced defensive volume
+        (Finding 3) &mdash; appear to pick up more cards, plausibly from using fouls
+        tactically to break up play rather than losing their composure.
+      </p>
+      <div class="chart-card">
+        <canvas id="chart-cards"></canvas>
+      </div>
     </div>
   </section>
 
   <section class="finding">
+    <span class="finding-number">08</span>
     <p class="kicker">Finding 8 &middot; Playing time</p>
     <h2>No single age dominates minutes &mdash; the usage curve is broad and centered on 26</h2>
     <p>

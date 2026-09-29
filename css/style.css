@@ -1,4 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap");
+
 :root {
+  --display-font: "Oswald", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme: light;
   --surface: #fcfcfb;
   --page: #eefdff;
@@ -75,11 +78,13 @@ header.site-header {
 }
 
 header.site-header h1 {
+  font-family: var(--display-font);
   font-size: clamp(2.1rem, 5.2vw, 3.1rem);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.08;
   margin: 0 0 10px;
+  text-transform: uppercase;
   background: linear-gradient(120deg, var(--pl-purple), var(--pl-gradient-end));
   -webkit-background-clip: text;
   background-clip: text;
@@ -172,17 +177,21 @@ section.finding {
 }
 
 section.finding h2 {
-  font-size: 1.45rem;
+  font-family: var(--display-font);
+  font-weight: 600;
+  font-size: 1.6rem;
   margin: 0 0 10px;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--pl-gradient-end);
+  border-bottom: 3px solid var(--pl-gradient-end);
   display: inline-block;
 }
 
 section.finding .kicker {
   color: var(--text-muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  font-family: var(--display-font);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   margin: 0 0 10px;
 }
@@ -190,6 +199,114 @@ section.finding .kicker {
 section.finding p {
   color: var(--text-secondary);
   max-width: 68ch;
+}
+
+section.finding {
+  position: relative;
+  overflow: hidden;
+}
+
+.finding-number {
+  position: absolute;
+  top: -6px;
+  right: 18px;
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 5.5rem;
+  line-height: 1;
+  color: var(--pl-gradient-end);
+  opacity: 0.1;
+  pointer-events: none;
+  user-select: none;
+}
+
+section.finding.theme-attack { border-left: 5px solid var(--pos-fw); }
+section.finding.theme-mid { border-left: 5px solid var(--pos-mf); }
+section.finding.theme-defense { border-left: 5px solid var(--pos-df); }
+section.finding.theme-keeper { border-left: 5px solid var(--pos-gk); }
+section.finding.theme-value { border-left: 5px solid var(--pl-purple); }
+
+section.finding.theme-attack h2 { border-bottom-color: var(--pos-fw); }
+section.finding.theme-mid h2 { border-bottom-color: var(--pos-mf); }
+section.finding.theme-defense h2 { border-bottom-color: var(--pos-df); }
+section.finding.theme-keeper h2 { border-bottom-color: var(--pos-gk); }
+section.finding.theme-value h2 { border-bottom-color: var(--pl-purple); }
+
+.finding-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+.finding-split.reverse {
+  direction: rtl;
+}
+
+.finding-split.reverse > * {
+  direction: ltr;
+}
+
+.finding-split .chart-card {
+  margin-top: 0;
+}
+
+@media (max-width: 760px) {
+  .finding-split {
+    grid-template-columns: 1fr;
+  }
+  .finding-split.reverse {
+    direction: ltr;
+  }
+}
+
+.pull-quote {
+  font-family: var(--display-font);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  color: var(--pl-purple);
+  border-left: 3px solid var(--pl-gradient-end);
+  padding-left: 16px;
+  margin: 18px 0;
+  max-width: 60ch;
+}
+
+.callout-stat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 28px;
+  margin-top: 20px;
+  padding: 24px;
+  background: var(--page);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.callout-stat .big-number {
+  font-family: var(--display-font);
+  font-weight: 700;
+  font-size: 4.4rem;
+  line-height: 1;
+  color: var(--pl-purple);
+  white-space: nowrap;
+}
+
+.callout-stat .big-number-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+}
+
+.callout-stat .sparkline-wrap {
+  flex: 1;
+  min-width: 220px;
+  height: 90px;
 }
 
 .chart-card {

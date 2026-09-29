@@ -39,6 +39,19 @@ function plBarGradient(context) {
   return gradient;
 }
 
+function tooltipStyle(extra) {
+  return Object.assign(
+    {
+      backgroundColor: cssVar("--surface"),
+      titleColor: cssVar("--text-primary"),
+      bodyColor: cssVar("--text-secondary"),
+      borderColor: cssVar("--border"),
+      borderWidth: 1,
+    },
+    extra || {}
+  );
+}
+
 function baseOptions(yLabel) {
   const muted = cssVar("--text-muted");
   const grid = cssVar("--gridline");
@@ -48,13 +61,7 @@ function baseOptions(yLabel) {
     interaction: { mode: "index", intersect: false },
     plugins: {
       legend: { display: false },
-      tooltip: {
-        backgroundColor: cssVar("--surface"),
-        titleColor: cssVar("--text-primary"),
-        bodyColor: cssVar("--text-secondary"),
-        borderColor: cssVar("--border"),
-        borderWidth: 1,
-      },
+      tooltip: tooltipStyle(),
     },
     scales: {
       x: {
@@ -71,6 +78,43 @@ function baseOptions(yLabel) {
       },
     },
   };
+}
+
+function categoryScales(yLabel) {
+  const muted = cssVar("--text-muted");
+  const grid = cssVar("--gridline");
+  return {
+    x: {
+      title: { display: true, text: "Age", color: muted },
+      grid: { display: false },
+      ticks: { color: muted },
+    },
+    y: {
+      title: { display: true, text: yLabel, color: muted },
+      grid: { color: grid },
+      ticks: { color: muted },
+      beginAtZero: true,
+    },
+  };
+}
+
+function bucketByAge(rows, bucketSize) {
+  const size = bucketSize || 3;
+  const buckets = {};
+  for (const r of rows) {
+    const start = Math.floor(r.age / size) * size;
+    if (!buckets[start]) buckets[start] = { sum: 0, n: 0 };
+    buckets[start].sum += r.value * r.n;
+    buckets[start].n += r.n;
+  }
+  return Object.keys(buckets)
+    .map(Number)
+    .sort((a, b) => a - b)
+    .map((start) => ({
+      label: `${start}\u2013${start + size - 1}`,
+      value: buckets[start].sum / buckets[start].n,
+      n: buckets[start].n,
+    }));
 }
 
 function lineDataset(rows, color, label, fillAlpha) {
@@ -98,28 +142,6 @@ function renderMultiLine(canvasId, seriesByGroup, yLabel) {
   });
 }
 
-function renderSingleLine(canvasId, rows, yLabel) {
-  const ctx = document.getElementById(canvasId);
-  new Chart(ctx, {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: yLabel,
-          data: rows.map((r) => ({ x: r.age, y: r.value })),
-          borderColor: (context) => plLineGradient(context),
-          backgroundColor: (context) => plLineGradient(context, 0.18),
-          fill: true,
-          borderWidth: 2.5,
-          pointRadius: 2,
-          tension: 0.25,
-        },
-      ],
-    },
-    options: baseOptions(yLabel),
-  });
-}
-
 function renderBar(canvasId, rows, yLabel) {
   const ctx = document.getElementById(canvasId);
   new Chart(ctx, {
@@ -136,6 +158,198 @@ function renderBar(canvasId, rows, yLabel) {
       ],
     },
     options: baseOptions(yLabel),
+  });
+}
+
+function renderBarBucketed(canvasId, rows, yLabel, bucketSize) {
+  const buckets = bucketByAge(rows, bucketSize);
+  const ctx = document.getElementById(canvasId);
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: buckets.map((b) => b.label),
+      datasets: [
+        {
+          label: yLabel,
+          data: buckets.map((b) => Math.round(b.value * 1000) / 1000),
+          backgroundColor: (context) => plBarGradient(context),
+          borderRadius: 4,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+      scales: categoryScales(yLabel),
+    },
+  });
+}
+
+function renderGroupedBarBucketed(canvasId, seriesByGroup, yLabel, bucketSize) {
+  const ctx = document.getElementById(canvasId);
+  const allLabels = new Set();
+  const bucketedByGroup = {};
+  for (const [group, rows] of Object.entries(seriesByGroup)) {
+    const b = bucketByAge(rows, bucketSize);
+    bucketedByGroup[group] = b;
+    b.forEach((x) => allLabels.add(x.label));
+  }
+  const labels = Array.from(allLabels).sort((a, b) => parseInt(a) - parseInt(b));
+  const datasets = Object.entries(bucketedByGroup).map(([group, buckets]) => {
+    const map = Object.fromEntries(buckets.map((b) => [b.label, b.value]));
+    return {
+      label: group,
+      data: labels.map((l) => (map[l] != null ? Math.round(map[l] * 1000) / 1000 : null)),
+      backgroundColor: cssVar(POSITION_COLOR[group] || "--pl-gradient-end"),
+      borderRadius: 4,
+    };
+  });
+  new Chart(ctx, {
+    type: "bar",
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+      scales: categoryScales(yLabel),
+    },
+  });
+}
+
+function renderHorizontalBar(canvasId, rows, yLabel, bucketSize) {
+  const buckets = bucketByAge(rows, bucketSize);
+  const ctx = document.getElementById(canvasId);
+  const muted = cssVar("--text-muted");
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: buckets.map((b) => `Age ${b.label}`),
+      datasets: [
+        {
+          label: yLabel,
+          data: buckets.map((b) => Math.round(b.value * 1000) / 1000),
+          backgroundColor: (context) => plBarGradient(context),
+          borderRadius: 4,
+        },
+      ],
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: tooltipStyle() },
+      scales: {
+        x: {
+          title: { display: true, text: yLabel, color: muted },
+          grid: { color: cssVar("--gridline") },
+          ticks: { color: muted },
+          beginAtZero: true,
+        },
+        y: { grid: { display: false }, ticks: { color: muted } },
+      },
+    },
+  });
+}
+
+function renderScatter(canvasId, rows, yLabel) {
+  const ctx = document.getElementById(canvasId);
+  const maxN = Math.max(...rows.map((r) => r.n || 1));
+  new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: yLabel,
+          data: rows.map((r) => ({ x: r.age, y: r.value, n: r.n })),
+          backgroundColor: cssVar("--pl-gradient-end"),
+          pointRadius: rows.map((r) => 3 + ((r.n || 1) / maxN) * 9),
+          pointHoverRadius: rows.map((r) => 5 + ((r.n || 1) / maxN) * 9),
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: tooltipStyle({
+          callbacks: {
+            label: (item) => `Age ${item.raw.x}: ${item.raw.y} (n=${item.raw.n})`,
+          },
+        }),
+      },
+      scales: baseOptions(yLabel).scales,
+    },
+  });
+}
+
+function renderPolarArea(canvasId, rows, yLabel, bucketSize) {
+  const buckets = bucketByAge(rows, bucketSize);
+  const ctx = document.getElementById(canvasId);
+  const colorVars = ["--pos-gk", "--pos-df", "--pos-mf", "--pos-fw", "--pl-purple", "--pl-gradient-end"];
+  new Chart(ctx, {
+    type: "polarArea",
+    data: {
+      labels: buckets.map((b) => `Age ${b.label}`),
+      datasets: [
+        {
+          data: buckets.map((b) => Math.round(b.value * 10) / 10),
+          backgroundColor: buckets.map((_, i) => hexToRgba(cssVar(colorVars[i % colorVars.length]), 0.78)),
+          borderColor: cssVar("--surface"),
+          borderWidth: 2,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "right",
+          labels: { color: cssVar("--text-secondary"), boxWidth: 12, font: { size: 11 } },
+        },
+        tooltip: tooltipStyle({
+          callbacks: { label: (item) => `${yLabel}: ${item.formattedValue}` },
+        }),
+      },
+      scales: {
+        r: {
+          ticks: { display: false },
+          grid: { color: cssVar("--gridline") },
+          angleLines: { color: cssVar("--gridline") },
+        },
+      },
+    },
+  });
+}
+
+function renderSparkline(canvasId, rows) {
+  const ctx = document.getElementById(canvasId);
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      datasets: [
+        {
+          data: rows.map((r) => ({ x: r.age, y: r.value })),
+          borderColor: (context) => plLineGradient(context),
+          backgroundColor: (context) => plLineGradient(context, 0.15),
+          fill: true,
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.3,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        x: { type: "linear", display: false },
+        y: { display: false },
+      },
+    },
   });
 }
 
@@ -163,16 +377,20 @@ async function main() {
     groupByField(findings.gi_by_age_position, "group"),
     "Goal involvements per 90"
   );
-  renderSingleLine("chart-passing", findings.passing_by_age, "Pass completion %");
-  renderMultiLine(
+  renderBarBucketed("chart-passing", findings.passing_by_age, "Pass completion %", 3);
+  renderGroupedBarBucketed(
     "chart-defensive",
     groupByField(findings.defensive_by_age, "group"),
-    "Tackles won + interceptions per 90"
+    "Tackles won + interceptions per 90",
+    3
   );
-  renderSingleLine("chart-aerial", findings.aerial_by_age, "Aerial duels won %");
-  renderSingleLine("chart-gk-save", findings.gk_save_by_age, "Save %");
-  renderSingleLine("chart-market-value", findings.market_value_by_age, "Average market value (€)");
-  renderSingleLine("chart-cards", findings.cards_by_age, "Yellow + red cards per 90");
+  renderScatter("chart-aerial", findings.aerial_by_age, "Aerial duels won %");
+  renderPolarArea("chart-gk-save", findings.gk_save_by_age, "Save %", 3);
+
+  document.getElementById("callout-value-number").textContent = summary.peak_market_value_age.age;
+  renderSparkline("chart-market-value", findings.market_value_by_age);
+
+  renderHorizontalBar("chart-cards", findings.cards_by_age, "Yellow + red cards per 90", 3);
   renderBar("chart-minutes-share", findings.minutes_share_by_age, "% of all Premier League minutes");
 }
 
