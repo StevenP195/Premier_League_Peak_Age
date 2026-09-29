@@ -23,16 +23,6 @@ function xiFmtMoney(v) {
   return "€" + (v / 1e6).toFixed(1) + "M";
 }
 
-function initials(name) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(-2)
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase();
-}
-
 function buildDots() {
   const container = document.getElementById("xi-dots");
   container.innerHTML = "";
@@ -74,11 +64,8 @@ function renderXI() {
     const circle = dot.querySelector(".dot-circle");
     if (entry) {
       dot.classList.remove("empty");
-      const colors = CLUB_COLORS[entry.club_name];
-      const primary = colors ? colors[0] : "#3d195b";
-      circle.style.background = primary;
-      circle.style.color = colors ? readableTextColor(primary) : "#ffffff";
-      circle.textContent = initials(entry.player_name);
+      circle.style.background = "transparent";
+      circle.innerHTML = playerAvatarSVG(entry.club_name, 34, false);
       dot.dataset.tooltip = `${entry.player_name} — age ${age}\n${entry.club_name}\n${xiFmtMoney(entry.value)}`;
       total += entry.value;
       if (!highest || entry.value > highest.value) highest = entry;

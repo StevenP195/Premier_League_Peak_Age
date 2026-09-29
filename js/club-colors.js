@@ -86,3 +86,21 @@ function readableTextColor(hex) {
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.6 ? "#0b0b0b" : "#ffffff";
 }
+
+let playerAvatarSeed = 0;
+
+function playerAvatarSVG(clubName, size, withRing) {
+  const colors = CLUB_COLORS[clubName];
+  const primary = colors ? colors[0] : "#3d195b";
+  const id = `pa${playerAvatarSeed++}`;
+  const ring = withRing === false ? "" : `<circle cx="50" cy="50" r="47.5" fill="none" stroke="${primary}" stroke-width="3" />`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Player silhouette">
+    <defs><clipPath id="${id}"><circle cx="50" cy="50" r="49" /></clipPath></defs>
+    <circle cx="50" cy="50" r="49" fill="#eef3f6" />
+    <g clip-path="url(#${id})">
+      <path d="M8 106 C8 68 26 52 50 52 C74 52 92 68 92 106 Z" fill="${primary}" />
+      <circle cx="50" cy="37" r="19" fill="#e8c39e" />
+    </g>
+    ${ring}
+  </svg>`;
+}

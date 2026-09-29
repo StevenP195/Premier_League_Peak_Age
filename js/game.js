@@ -149,21 +149,10 @@ function revealPlayer() {
 
   const crestEl = document.getElementById("result-crest");
   const crestSlug = CLUB_CRESTS[pick.primary_club];
-  if (crestSlug) {
-    crestEl.innerHTML = `<img src="assets/crests/${crestSlug}.png" alt="${pick.primary_club}" style="width:100%;height:100%;object-fit:contain;padding:6px;box-sizing:border-box;" />`;
-    crestEl.style.background = "#fff";
-  } else {
-    const colors = CLUB_COLORS[pick.primary_club];
-    const primary = colors ? colors[0] : "#3d195b";
-    crestEl.style.background = primary;
-    crestEl.textContent = (pick.player_name || "?")
-      .split(" ")
-      .filter(Boolean)
-      .slice(-2)
-      .map((w) => w[0])
-      .join("")
-      .toUpperCase();
-  }
+  const badgeHtml = crestSlug
+    ? `<span class="result-crest-badge"><img src="assets/crests/${crestSlug}.png" alt="${pick.primary_club}" /></span>`
+    : "";
+  crestEl.innerHTML = playerAvatarSVG(pick.primary_club, 104) + badgeHtml;
 
   document.getElementById("result-name").textContent = pick.player_name;
   document.getElementById("result-meta").textContent =
