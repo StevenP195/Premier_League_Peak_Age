@@ -8,18 +8,24 @@
 </head>
 <body>
 <div class="brand-strip"></div>
-<img class="pl-badge" src="assets/pl-badge.png" alt="Premier League badge" />
-<nav class="site-nav">
+<div class="progress-rail" aria-hidden="true"><div class="fill" id="scroll-fill"></div></div>
+<nav class="site-nav nav-overlay" id="site-nav">
   <div class="nav-inner">
     <a href="index.html" class="current">Report</a>
     <a href="dashboard.html">Dashboard</a>
   </div>
 </nav>
-<div class="wrap">
-  <header class="site-header">
-    <h1>When Do Premier League Players Peak?</h1>
-    <p class="byline">Steven Prusak</p>
-    <p class="summary">
+
+<header class="hero" id="hero">
+  <div class="hero-media">
+    <img class="hero-img" id="hero-img" src="assets/hero-tunnel.jpg" alt="Premier League players walking out of the tunnel into a packed, floodlit stadium" />
+    <div class="hero-scrim"></div>
+  </div>
+  <div class="hero-content wrap">
+    <p class="eyebrow eyebrow-hero">Financial Data Analytics &middot; Independent Research Report</p>
+    <h1 class="hero-title">When Do Premier League Players<br /><span>Peak?</span></h1>
+    <p class="byline hero-byline">Steven Prusak</p>
+    <p class="summary hero-summary">
       This report tracks 2,465 Premier League players across 149,637 individual match
       appearances and 14 seasons (2012/13 through 2025/26), combining Transfermarkt's
       match-by-match records with FBref's advanced stats and EA Sports FIFA ratings to ask
@@ -28,9 +34,14 @@
       involvement, passing, defending, aerial duels, shot-stopping, and market value each
       peak at a different age, and none of them peak as early as most fans assume.
     </p>
-  </header>
+  </div>
+  <a class="hero-scroll-cue" href="#stat-row-anchor" aria-label="Scroll to begin reading"><span></span></a>
+</header>
 
-  <section class="stat-row">
+<img class="pl-badge" src="assets/pl-badge.png" alt="Premier League badge" />
+
+<div class="wrap">
+  <section class="stat-row" id="stat-row-anchor">
     <div class="stat-tile">
       <div class="value" id="stat-matches">&mdash;</div>
       <div class="label">Player-match rows analyzed</div>
@@ -49,7 +60,21 @@
     </div>
   </section>
 
-  <section class="finding theme-attack">
+  <nav class="toc-rail" aria-label="Jump to a finding">
+    <a href="#finding-1"><span>01</span> Attacking</a>
+    <a href="#finding-2"><span>02</span> Passing</a>
+    <a href="#finding-3"><span>03</span> Defending</a>
+    <a href="#finding-4"><span>04</span> Aerial</a>
+    <a href="#finding-5"><span>05</span> Goalkeeping</a>
+    <a href="#finding-6"><span>06</span> Market value</a>
+    <a href="#finding-7"><span>07</span> Discipline</a>
+    <a href="#finding-8"><span>08</span> Playing time</a>
+    <a href="#finding-9"><span>09</span> The XI</a>
+    <a href="#finding-10"><span>10</span> Nationality</a>
+    <a href="#conclusion"><span>&bull;</span> Conclusion</a>
+  </nav>
+
+  <section class="finding theme-attack" id="finding-1">
     <span class="finding-number">01</span>
     <p class="kicker">Finding 1 &middot; Attacking output</p>
     <h2>Goal involvement peaks in a player's early 20s &mdash; unless they're a forward</h2>
@@ -81,7 +106,7 @@
     </div>
   </section>
 
-  <section class="finding theme-mid">
+  <section class="finding theme-mid" id="finding-2">
     <span class="finding-number">02</span>
     <p class="kicker">Finding 2 &middot; Passing</p>
     <h2>Passing accuracy peaks earlier than attacking output &mdash; around age 23</h2>
@@ -101,7 +126,7 @@
     </div>
   </section>
 
-  <section class="finding theme-defense">
+  <section class="finding theme-defense" id="finding-3">
     <span class="finding-number">03</span>
     <p class="kicker">Finding 3 &middot; Defensive work-rate</p>
     <h2>Defenders and midfielders do their most defending at 20, not 30</h2>
@@ -124,7 +149,7 @@
     </div>
   </section>
 
-  <section class="finding theme-defense">
+  <section class="finding theme-defense" id="finding-4">
     <span class="finding-number">04</span>
     <p class="kicker">Finding 4 &middot; Aerial ability</p>
     <h2>Aerial duel success keeps rising all the way to age 35</h2>
@@ -140,12 +165,12 @@
           Premier League players still contesting headers at 35 are typically specialist
           centre-backs whose whole game is built around exactly that skill.
         </p>
-        <p class="pull-quote">Every dot here is a real age-bin average &mdash; the bigger the dot, the more player-seasons behind it.</p>
+        <p class="pull-quote">Grouped into three-year age bands, the climb never reverses &mdash; each band outpaces the last, all the way to 33&ndash;35.</p>
       </div>
     </div>
   </section>
 
-  <section class="finding theme-keeper">
+  <section class="finding theme-keeper" id="finding-5">
     <span class="finding-number">05</span>
     <p class="kicker">Finding 5 &middot; Goalkeeping</p>
     <h2>Goalkeepers peak latest of all &mdash; shot-stopping tops out at 33</h2>
@@ -163,7 +188,7 @@
     </div>
   </section>
 
-  <section class="finding theme-value">
+  <section class="finding theme-value" id="finding-6">
     <span class="finding-number">06</span>
     <p class="kicker">Finding 6 &middot; Market value</p>
     <h2>Transfer market value peaks years before most on-pitch metrics do &mdash; at 26</h2>
@@ -187,7 +212,7 @@
     </div>
   </section>
 
-  <section class="finding theme-value">
+  <section class="finding theme-value" id="finding-7">
     <span class="finding-number">07</span>
     <p class="kicker">Finding 7 &middot; Discipline</p>
     <h2>The "reckless youngster" stereotype doesn't hold &mdash; cards peak at 30</h2>
@@ -206,7 +231,7 @@
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding" id="finding-8">
     <span class="finding-number">08</span>
     <p class="kicker">Finding 8 &middot; Playing time</p>
     <h2>No single age dominates minutes &mdash; the usage curve is broad and centered on 26</h2>
@@ -223,7 +248,7 @@
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding" id="finding-9">
     <p class="kicker">Finding 9 &middot; The most valuable XI at every age</p>
     <h2>Who would the most valuable Premier League XI be, age by age?</h2>
     <p>
@@ -278,7 +303,7 @@
     </div>
   </section>
 
-  <section class="finding">
+  <section class="finding" id="finding-10">
     <p class="kicker">Finding 10 &middot; Where the league comes from</p>
     <h2>Where do Premier League players come from, and does it show up in their value?</h2>
     <p>
@@ -342,7 +367,7 @@
     </div>
   </section>
 
-  <section class="finding conclusion">
+  <section class="finding conclusion" id="conclusion">
     <p class="kicker">Conclusion</p>
     <h2>So, when do Premier League players peak?</h2>
     <p>
@@ -445,5 +470,8 @@
 <script src="js/squad-xi.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/globe.gl@2"></script>
 <script src="js/globe.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/reveal.js"></script>
 </body>
 </html>

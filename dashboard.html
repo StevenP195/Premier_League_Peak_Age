@@ -8,17 +8,25 @@
 </head>
 <body>
 <div class="brand-strip"></div>
-<nav class="site-nav">
+<nav class="site-nav nav-overlay" id="site-nav">
   <div class="nav-inner">
     <a href="index.html">Report</a>
     <a href="dashboard.html" class="current">Dashboard</a>
   </div>
 </nav>
-<div class="wrap dashboard-header">
-  <h1>Premier League Player Explorer</h1>
-  <p>Filter 149,637 player-match appearances (2012/13&ndash;2025/26) and see the numbers update live.</p>
-  <span class="club-badge" id="club-badge" hidden><span class="swatch2"></span><img class="crest" id="club-badge-crest" alt="" /><span id="club-badge-name"></span></span>
-</div>
+
+<header class="hero hero-compact" id="hero">
+  <div class="hero-media">
+    <img class="hero-img" id="hero-img" src="assets/hero-tunnel.jpg" alt="Premier League players walking out of the tunnel into a packed, floodlit stadium" />
+    <div class="hero-scrim"></div>
+  </div>
+  <div class="hero-content wrap">
+    <p class="eyebrow eyebrow-hero">Interactive Explorer</p>
+    <h1 class="hero-title hero-title-compact">Premier League Player Explorer</h1>
+    <p class="summary hero-summary hero-summary-compact">Filter 149,637 player-match appearances (2012/13&ndash;2025/26) and see the numbers update live.</p>
+    <span class="club-badge" id="club-badge" hidden><span class="swatch2"></span><img class="crest" id="club-badge-crest" alt="" /><span id="club-badge-name"></span></span>
+  </div>
+</header>
 
 <div class="controls-bar">
   <div class="wrap" style="max-width:1100px">
@@ -163,5 +171,7 @@
 <script src="js/club-colors.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="js/game.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/reveal.js"></script>
 </body>
 </html>

@@ -45,6 +45,14 @@ data (all via Kaggle).
 - `js/game.js` &mdash; fetches `data/player_profiles.json` and implements the
   "build your ideal player" quiz and scoring/matching logic on the
   dashboard page.
+- `js/hero.js` &mdash; drives the full-bleed photo hero at the top of both
+  pages: the subtle parallax on scroll and the nav bar's crossfade from a
+  transparent overlay to a solid bar once you scroll past it.
+- `js/progress.js` &mdash; fills the thin reading-progress bar pinned to the
+  top of the report page as you scroll.
+- `js/reveal.js` &mdash; fades/slides findings, charts, and stat tiles into
+  view the first time they enter the viewport, and animates the report's
+  headline numbers counting up from zero.
 
 ### Data (derived; not hand-edited)
 - `data/player_match.csv` &mdash; one row per player per Premier League match
@@ -87,6 +95,8 @@ data (all via Kaggle).
   or Championship club appearing in the data, e.g. `arsenal-fc.png`,
   `chelsea-fc.png`, `manchester-city.png`), shown on the dashboard's club
   badge and as the player-dot color/icon source for the Player XI.
+- `assets/hero-tunnel.jpg` &mdash; the tunnel-to-pitch hero photo shown at
+  the top of both pages, behind the title overlay.
 
 ## Data sources
 
